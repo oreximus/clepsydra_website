@@ -1,0 +1,34 @@
+name: Deploy to EC2 via SSM
+
+permissions:
+  id-token: write # Required to exchange OIDC token with AWS STS
+  contents: read # Required to fetch repository content
+
+on:
+  push:
+    branches:
+      - main # Trigger deployment on push to main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::505609702165:role/Github_Actions
+          aws-region: ap-south-1
+
+      - name: Deploy via AWS Systems Manager (SSM)
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --instance-ids "i-0ba91641f64837abb" \
+            --region "ap-south-1" \
+            --comment "Deploy latest app code" \
+            --parameters commands=["bash /home/ubuntu/deploy.sh"] \
+            --timeout-seconds 600
