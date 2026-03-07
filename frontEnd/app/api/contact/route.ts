@@ -3,15 +3,6 @@ import nodemailer from "nodemailer";
 
 export async function POST(request: NextRequest) {
   try {
-    console.log(
-      "GMAIL_USER:",
-      process.env.GMAIL_USER ? "✓ Loaded" : "✗ Missing",
-    );
-    console.log(
-      "GMAIL_APP_PASSWORD:",
-      process.env.GMAIL_APP_PASSWORD ? "✓ Loaded" : "✗ Missing",
-    );
-
     const { name, email, phone, subject, message } = await request.json();
 
     // Validate required fields
