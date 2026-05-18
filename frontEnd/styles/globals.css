@@ -2,51 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 221 83% 53%;
-    --radius: 1rem;
-  }
+:root {
+  /* Brand Colors */
+  --brand-navy-deep:  #0D1B3E;
+  --brand-navy:       #1A3A8A;
+  --brand-blue:       #2B5FD9;
+  --brand-sky:        #4A9DE8;
+  --brand-sky-light:  #7EC8F4;
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 217 91% 60%;
-  }
+  /* Surfaces */
+  --bg-primary:       #FFFFFF;
+  --bg-secondary:     #F7F9FC;
+  --bg-tertiary:      #EEF2F8;
+
+  /* Text */
+  --text-primary:     #0D1B3E;
+  --text-secondary:   #374151;
+  --text-muted:       #6B7280;
+  --text-on-dark:     #FFFFFF;
+
+  /* Borders */
+  --border-light:     #E5EAF4;
+  --border-medium:    #C8D4EC;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(26,58,138,0.08);
+  --shadow-md: 0 4px 16px rgba(26,58,138,0.12);
+  --shadow-lg: 0 20px 40px rgba(13,27,62,0.15);
+}
+
+/* Override shadcn/ui CSS variables to match brand */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222 71% 16%;
+  --primary: 222 68% 31%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 214 80% 55%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 207 77% 60%;
+  --accent-foreground: 222 71% 16%;
+  --muted: 214 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 71% 16%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 214 32% 91%;
+  --ring: 222 68% 31%;
+  --radius: 0.75rem;
 }
 
 @layer base {
@@ -55,21 +58,42 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
-.animate-in {
-  animation: animate-in 0.5s ease-out;
+/* Section label treatment (matches "-- TECHNOLOGIES --") */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--brand-navy);
+}
+.section-label::before,
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--brand-navy);
+  max-width: 2rem;
+  opacity: 0.4;
 }
 
-@keyframes animate-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Brand button */
+.btn-brand {
+  background: linear-gradient(135deg, #1A3A8A, #2B5FD9);
+  color: white;
+  border-radius: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(26,58,138,0.3);
+}
+.btn-brand:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(26,58,138,0.4);
 }

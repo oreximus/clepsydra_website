@@ -8,10 +8,11 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { useToast } from "@/hooks/use-toast"
-import { Loader2, Send } from "lucide-react"
+import { Loader2, Send, CheckCircle } from "lucide-react"
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const { toast } = useToast()
   const [formData, setFormData] = useState({
     name: "",
@@ -42,6 +43,7 @@ export function ContactForm() {
       })
 
       if (response.ok) {
+        setIsSuccess(true)
         toast({
           title: "Message sent successfully!",
           description: "We'll get back to you as soon as possible.",
@@ -67,13 +69,36 @@ export function ContactForm() {
     }
   }
 
+  if (isSuccess) {
+    return (
+      <Card className="w-full max-w-2xl mx-auto border-[#E5EAF4] shadow-brand-md rounded-card bg-white">
+        <CardContent className="p-8 flex flex-col items-center text-center">
+          <div className="size-16 rounded-full bg-brand-sky-light/20 flex items-center justify-center mb-4">
+            <CheckCircle className="size-8 text-brand-navy" />
+          </div>
+          <h3 className="font-heading text-xl font-semibold text-brand-navy-deep mb-2">Message Sent!</h3>
+          <p className="font-body text-muted-foreground mb-6">
+            Thank you for reaching out. We&apos;ll get back to you within 24-48 hours.
+          </p>
+          <Button
+            variant="outline"
+            onClick={() => setIsSuccess(false)}
+            className="rounded-button"
+          >
+            Send Another Message
+          </Button>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardContent className="p-6">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <Card className="w-full max-w-2xl mx-auto border-[#E5EAF4] shadow-brand-md rounded-card bg-white">
+      <CardContent className="p-8">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-2">
+              <label htmlFor="name" className="block font-heading text-sm font-medium text-brand-navy-deep mb-2">
                 Name *
               </label>
               <Input
@@ -87,7 +112,7 @@ export function ContactForm() {
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-2">
+              <label htmlFor="email" className="block font-heading text-sm font-medium text-brand-navy-deep mb-2">
                 Email *
               </label>
               <Input
@@ -102,9 +127,9 @@ export function ContactForm() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium mb-2">
+              <label htmlFor="phone" className="block font-heading text-sm font-medium text-brand-navy-deep mb-2">
                 Phone
               </label>
               <Input
@@ -117,7 +142,7 @@ export function ContactForm() {
               />
             </div>
             <div>
-              <label htmlFor="subject" className="block text-sm font-medium mb-2">
+              <label htmlFor="subject" className="block font-heading text-sm font-medium text-brand-navy-deep mb-2">
                 Subject *
               </label>
               <Input
@@ -133,7 +158,7 @@ export function ContactForm() {
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-sm font-medium mb-2">
+            <label htmlFor="message" className="block font-heading text-sm font-medium text-brand-navy-deep mb-2">
               Message *
             </label>
             <Textarea
@@ -147,7 +172,7 @@ export function ContactForm() {
             />
           </div>
 
-          <Button type="submit" disabled={isSubmitting} className="w-full rounded-full" size="lg">
+          <Button type="submit" disabled={isSubmitting} className="w-full rounded-button bg-brand-gradient text-white font-heading font-semibold shadow-brand-md hover:brightness-110" size="lg">
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

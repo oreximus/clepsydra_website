@@ -1,24 +1,33 @@
 import type React from "react";
 import "@/styles/globals.css";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { Footer } from "@/components/footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["300", "400", "500", "600"],
+});
 
 export const metadata: Metadata = {
-  title: "Clepsydra Technologies - Software Development & AI Solutions",
+  title: "Clepsydra Technologies — Timeless Precision, Modern Solutions",
   description:
-    "Professional software development services including web development, mobile apps, AI automation, data analytics, and more. Registered in 2025.",
+    "Clepsydra Technologies delivers timeless precision through modern software solutions.",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/logo-icon-transparent.png", sizes: "any" },
     ],
     apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/images/logo-icon-transparent.png", sizes: "180x180", type: "image/png" },
     ],
   },
 };
@@ -30,14 +39,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body
+        className={`${plusJakartaSans.variable} ${inter.variable} font-body antialiased`}
+      >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
           {children}
+          <Footer />
           <Toaster />
         </ThemeProvider>
       </body>
