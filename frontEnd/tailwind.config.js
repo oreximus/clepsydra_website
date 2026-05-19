@@ -106,10 +106,35 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        "gradient-shimmer": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        "cursor-blink": {
+          "0%, 100%": { opacity: 1 },
+          "50%": { opacity: 0 },
+        },
+        "glow-pulse": {
+          "0%, 100%": { boxShadow: "0 0 20px rgba(74,157,232,0.12)" },
+          "50%": { boxShadow: "0 0 40px rgba(74,157,232,0.3)" },
+        },
+        "fade-in-up": {
+          "0%": { opacity: 0, transform: "translateY(30px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+        "bounce-subtle": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(8px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "gradient-shimmer": "gradient-shimmer 4s ease-in-out infinite",
+        "cursor-blink": "cursor-blink 0.6s step-end infinite",
+        "glow-pulse": "glow-pulse 3s ease-in-out infinite",
+        "fade-in-up": "fade-in-up 0.8s ease-out forwards",
+        "bounce-subtle": "bounce-subtle 2.5s ease-in-out infinite",
       },
     },
   },

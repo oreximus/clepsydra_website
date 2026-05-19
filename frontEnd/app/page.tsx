@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -25,9 +26,9 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { ContactForm } from "@/components/contact-form";
+import { ServiceQueryModal } from "@/components/service-query-modal";
 import { Navbar } from "@/components/navbar";
 import dynamic from "next/dynamic";
 
@@ -150,7 +151,54 @@ const testimonials = [
 
 
 
+const heroWords = [
+  "Modern Software",
+  "Scalable Systems",
+  "Clean Code",
+  "Digital Solutions",
+  "Cloud-Native Apps",
+  "Smart Automation",
+  "Robust Platforms",
+];
+
+function AnimatedHeroText() {
+  const [displayedText, setDisplayedText] = useState(heroWords[0]);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const indexRef = useRef(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        indexRef.current = (indexRef.current + 1) % heroWords.length;
+        setDisplayedText(heroWords[indexRef.current]);
+        setIsTransitioning(false);
+      }, 450);
+    }, 3200);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <span className="relative inline-flex items-baseline">
+      <span
+        className={
+          `inline-block text-transparent bg-clip-text bg-gradient-to-r from-brand-sky to-brand-sky-light bg-[length:200%_100%] animate-gradient-shimmer transition-all duration-500 ease-out ` +
+          (isTransitioning
+            ? "opacity-0 -translate-y-3 blur-sm scale-[0.97]"
+            : "opacity-100 translate-y-0 blur-0 scale-100")
+        }
+      >
+        {displayedText}
+      </span>
+      <span className="inline-block w-[3px] h-[0.85em] bg-brand-sky-light ml-1 rounded-sm animate-cursor-blink align-middle" />
+    </span>
+  );
+}
+
 export default function LandingPage() {
+  const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <div className="flex min-h-[100dvh] flex-col">
       <Navbar />
@@ -158,14 +206,20 @@ export default function LandingPage() {
       <main className="flex-1">
         {/* ===== HERO SECTION ===== */}
         <section className="relative min-h-screen flex items-center overflow-hidden bg-hero-gradient">
-          <div className="absolute inset-0 bg-[rgba(13,27,62,0.85)]" />
-          <Image
-            src="/images/hero-tech-workspace.jpg"
-            alt=""
-            fill
-            className="object-cover opacity-20"
-            priority
-          />
+          {/* Video Background */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src="/videos/hero_section_vid.mp4" type="video/mp4" />
+          </video>
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-deep/90 via-brand-navy-deep/70 to-brand-navy-deep/80" />
+          {/* Subtle grid pattern */}
+          <div className="absolute inset-0 opacity-[0.025] bg-[linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] bg-[size:60px_60px]" />
           <Image
             src="/images/logo-icon-transparent.png"
             alt=""
@@ -173,38 +227,34 @@ export default function LandingPage() {
             height={400}
             className="absolute right-[-80px] top-1/2 -translate-y-1/2 opacity-[0.04] pointer-events-none hidden lg:block"
           />
-          <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 w-full">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-4xl"
-            >
-              <Badge className="mb-6 rounded-pill px-4 py-2 text-xs font-heading font-semibold bg-brand-sky/20 text-white border-0 tracking-wider inline-flex items-center gap-2">
-                <Clock className="size-3.5" />
+          <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 w-full animate-fade-in-up">
+            <div className="max-w-4xl">
+              <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/70 text-xs font-heading font-semibold tracking-wider animate-glow-pulse">
+                <Clock className="size-3.5 text-brand-sky" />
                 Timeless Precision, Modern Solutions
-              </Badge>
+              </div>
               <h1 className="font-heading text-[44px] md:text-[72px] font-bold text-white leading-[1.1] mb-6">
-                Precision Engineering for
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-sky to-brand-sky-light"> Modern Software</span>
+                Precision Engineering for{" "}
+                <br className="sm:hidden" />
+                <AnimatedHeroText />
               </h1>
-              <p className="font-body text-lg md:text-xl text-white/80 max-w-2xl mb-10 leading-relaxed">
+              <p className="font-body text-lg md:text-xl text-white/70 max-w-2xl mb-10 leading-relaxed">
                 We turn complex ideas into elegant, scalable solutions. From web and mobile to AI automation —
                 Clepsydra delivers with timeless precision.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="rounded-button bg-white text-brand-navy font-heading font-semibold h-12 px-8 text-base shadow-brand-md hover:bg-brand-sky-light hover:text-white transition-all duration-200">
+                <Button className="group rounded-button bg-white text-brand-navy font-heading font-semibold h-12 px-8 text-base shadow-brand-md hover:bg-brand-sky-light hover:text-white transition-all duration-300">
                   Start Your Project
-                  <ArrowRight className="ml-2 size-4" />
+                  <ArrowRight className="ml-2 size-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </Button>
                 <Button
                   variant="outline"
-                  className="rounded-button border-white text-white bg-transparent hover:bg-white/10 h-12 px-8 text-base font-heading font-semibold transition-all duration-200"
+                  className="rounded-button border-white/20 text-white bg-white/5 backdrop-blur-sm hover:bg-white/15 h-12 px-8 text-base font-heading font-semibold transition-all duration-300"
                 >
                   View Our Work
                 </Button>
               </div>
-              <div className="flex items-center gap-6 mt-8 text-sm text-white/60 font-body">
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-10 text-sm text-white/50 font-body">
                 <span className="flex items-center gap-1.5">
                   <Check className="size-4 text-brand-sky" />
                   Free consultation
@@ -218,16 +268,12 @@ export default function LandingPage() {
                   Expert support
                 </span>
               </div>
-            </motion.div>
+            </div>
           </div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, y: [0, 8, 0] }}
-            transition={{ opacity: { delay: 1 }, y: { duration: 2, repeat: Infinity } }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50"
-          >
+          {/* Scroll indicator */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/30 animate-bounce-subtle">
             <ChevronDown className="size-6" />
-          </motion.div>
+          </div>
         </section>
 
         {/* ===== STATS BAR ===== */}
@@ -283,8 +329,16 @@ export default function LandingPage() {
               className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
             >
               {services.map((service, i) => (
-                <motion.div key={i} variants={item}>
-                  <Card className="h-full border-[#E5EAF4] shadow-brand-sm hover:shadow-brand-md hover:-translate-y-0.5 transition-all duration-200 rounded-card bg-white group cursor-default">
+                <motion.div
+                  key={i}
+                  variants={item}
+                  onClick={() => {
+                    setSelectedService(service.title);
+                    setModalOpen(true);
+                  }}
+                  className="cursor-pointer"
+                >
+                  <Card className="h-full border-[#E5EAF4] shadow-brand-sm hover:shadow-brand-md hover:-translate-y-0.5 transition-all duration-200 rounded-card bg-white group">
                     <CardContent className="p-6 flex flex-col h-full">
                       <div className="size-12 rounded-[10px] bg-[#EEF6FD] flex items-center justify-center text-brand-blue mb-4 group-hover:bg-brand-blue group-hover:text-white transition-all duration-200">
                         {service.icon}
@@ -739,6 +793,12 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
+
+      <ServiceQueryModal
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+        defaultService={selectedService ?? "Website Development"}
+      />
     </div>
   );
 }
