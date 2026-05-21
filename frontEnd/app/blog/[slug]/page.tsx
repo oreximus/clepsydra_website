@@ -1,4 +1,3 @@
-import { getPostBySlug, getAllPosts } from "@/lib/blog-server";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,19 +5,19 @@ import { ArrowLeft, Clock, User, Tag } from "lucide-react";
 import type { Metadata } from "next";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { Navbar } from "@/components/navbar";
+import { getPublishedPostBySlug } from "@/lib/db";
+import { rowToBlogPost } from "@/lib/blog";
 
 interface Props {
   params: { slug: string };
 }
 
-export async function generateStaticParams() {
-  const posts = getAllPosts();
-  return posts.map((post) => ({ slug: post.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = getPostBySlug(params.slug);
-  if (!post) return { title: "Not Found" };
+  const row = await getPublishedPostBySlug(params.slug);
+  if (!row) return { title: "Not Found" };
+  const post = rowToBlogPost(row);
 
   return {
     title: `${post.title} — Clepsydra Blog`,
@@ -38,9 +37,10 @@ function readingTime(text: string): string {
   return `${min} min read`;
 }
 
-export default function BlogPostPage({ params }: Props) {
-  const post = getPostBySlug(params.slug);
-  if (!post) notFound();
+export default async function BlogPostPage({ params }: Props) {
+  const row = await getPublishedPostBySlug(params.slug);
+  if (!row) notFound();
+  const post = rowToBlogPost(row);
 
   return (
     <div className="min-h-screen bg-white">

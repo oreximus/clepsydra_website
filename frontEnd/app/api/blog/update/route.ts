@@ -32,11 +32,15 @@ export async function PUT(request: NextRequest) {
 
   let coverFilename = coverImage || "";
   if (coverImage && coverImage.startsWith("data:")) {
-    const publicDir = path.join(process.cwd(), "public/content/blog", slug);
-    if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
-    const base64 = coverImage.split(",")[1];
-    fs.writeFileSync(path.join(publicDir, "cover.jpg"), Buffer.from(base64, "base64"));
-    coverFilename = "cover.jpg";
+    try {
+      const publicDir = path.join(process.cwd(), "public/content/blog", slug);
+      if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
+      const base64 = coverImage.split(",")[1];
+      fs.writeFileSync(path.join(publicDir, "cover.jpg"), Buffer.from(base64, "base64"));
+      coverFilename = "cover.jpg";
+    } catch {
+      coverFilename = coverImage;
+    }
   }
 
   await updatePost(
@@ -49,20 +53,24 @@ export async function PUT(request: NextRequest) {
     published ? 1 : 0,
   );
 
-  const mdDir = path.join(process.cwd(), "content/blog", slug);
-  if (!fs.existsSync(mdDir)) fs.mkdirSync(mdDir, { recursive: true });
-  const frontmatter = [
-    "---",
-    `title: "${title.replace(/"/g, '\\"')}"`,
-    `excerpt: "${(excerpt || "").replace(/"/g, '\\"')}"`,
-    `date: "${new Date().toISOString()}"`,
-    `author: "${(session.user.name || "").replace(/"/g, '\\"')}"`,
-    `tags: ${JSON.stringify(tags || [])}`,
-    ...(coverFilename ? [`coverImage: "${coverFilename}"`] : []),
-    "---",
-    "",
-  ].join("\n");
-  fs.writeFileSync(path.join(mdDir, "index.md"), frontmatter + content);
+  try {
+    const mdDir = path.join(process.cwd(), "content/blog", slug);
+    if (!fs.existsSync(mdDir)) fs.mkdirSync(mdDir, { recursive: true });
+    const frontmatter = [
+      "---",
+      `title: "${title.replace(/"/g, '\\"')}"`,
+      `excerpt: "${(excerpt || "").replace(/"/g, '\\"')}"`,
+      `date: "${new Date().toISOString()}"`,
+      `author: "${(session.user.name || "").replace(/"/g, '\\"')}"`,
+      `tags: ${JSON.stringify(tags || [])}`,
+      ...(coverFilename ? [`coverImage: "${coverFilename}"`] : []),
+      "---",
+      "",
+    ].join("\n");
+    fs.writeFileSync(path.join(mdDir, "index.md"), frontmatter + content);
+  } catch {
+    // filesystem write skipped (read-only on Vercel, blog reads from DB)
+  }
 
   return NextResponse.json({ message: "Post updated", slug });
 }

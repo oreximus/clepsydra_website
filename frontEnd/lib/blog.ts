@@ -27,3 +27,31 @@ export function parseTags(raw: string | null | undefined): string[] {
     return [];
   }
 }
+
+export interface DbPostRow {
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  tags: string;
+  cover_image: string;
+  created_at: string;
+  author_name: string;
+}
+
+export function rowToBlogPost(row: DbPostRow): BlogPost {
+  return {
+    slug: row.slug,
+    title: row.title,
+    excerpt: row.excerpt || "",
+    date: row.created_at,
+    author: row.author_name || "Clepsydra Technologies",
+    tags: parseTags(row.tags),
+    coverImage: row.cover_image?.startsWith("http") || row.cover_image?.startsWith("data:")
+      ? row.cover_image
+      : row.cover_image
+        ? `/content/blog/${row.slug}/${row.cover_image}`
+        : "",
+    content: row.content,
+  };
+}

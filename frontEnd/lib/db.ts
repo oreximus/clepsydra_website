@@ -133,3 +133,25 @@ export async function deletePost(slug: string, userId: number) {
     userId,
   ]);
 }
+
+export async function getAllPublishedPosts() {
+  const result = await query(`
+    SELECT p.*, u.name as author_name
+    FROM posts p
+    JOIN users u ON p.user_id = u.id
+    WHERE p.published = 1
+    ORDER BY p.created_at DESC
+  `);
+  return result.rows;
+}
+
+export async function getPublishedPostBySlug(slug: string) {
+  const result = await query(
+    `SELECT p.*, u.name as author_name
+     FROM posts p
+     JOIN users u ON p.user_id = u.id
+     WHERE p.published = 1 AND p.slug = $1`,
+    [slug],
+  );
+  return result.rows[0] || null;
+}

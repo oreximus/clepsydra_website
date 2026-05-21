@@ -1,15 +1,18 @@
-import { getAllPosts } from "@/lib/blog-server";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Clock, ArrowRight } from "lucide-react";
+import { getAllPublishedPosts } from "@/lib/db";
+import { rowToBlogPost } from "@/lib/blog";
 
 export const metadata: Metadata = {
   title: "Blog — Clepsydra Technologies",
   description:
     "Insights, tutorials, and stories from Clepsydra Technologies on software development, technology trends, and digital product building.",
 };
+
+export const dynamic = "force-dynamic";
 
 function readingTime(text: string): string {
   const wpm = 200;
@@ -18,8 +21,9 @@ function readingTime(text: string): string {
   return `${min} min read`;
 }
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+export default async function BlogPage() {
+  const rows = await getAllPublishedPosts();
+  const posts = rows.map(rowToBlogPost);
   const featured = posts[0];
   const rest = posts.slice(1);
 
