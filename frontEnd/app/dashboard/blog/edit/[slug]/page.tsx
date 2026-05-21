@@ -44,6 +44,7 @@ export default function EditPostPage() {
     excerpt: string;
     tags: string[];
     coverImage: string;
+    published: boolean;
   }) {
     setSaving(true);
     setError("");
@@ -58,7 +59,7 @@ export default function EditPostPage() {
           content: data.content,
           tags: data.tags,
           coverImage: data.coverImage,
-          published: 1,
+          published: data.published ? 1 : 0,
         }),
       });
       if (!res.ok) {
@@ -132,6 +133,7 @@ export default function EditPostPage() {
         initialTitle={post.title}
         initialContent={post.content}
         initialExcerpt={post.excerpt}
+        initialPublished={post.published === 1}
         initialTags={
           post.tags ? JSON.parse(post.tags) : []
         }

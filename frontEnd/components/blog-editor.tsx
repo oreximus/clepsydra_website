@@ -17,6 +17,8 @@ import {
   Eye,
   Edit3,
   Loader2,
+  Globe,
+  FileEdit,
 } from "lucide-react";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
 
@@ -26,12 +28,14 @@ interface Props {
   initialExcerpt?: string;
   initialTags?: string[];
   initialCoverImage?: string;
+  initialPublished?: boolean;
   onSave: (data: {
     title: string;
     content: string;
     excerpt: string;
     tags: string[];
     coverImage: string;
+    published: boolean;
   }) => Promise<void>;
   saving?: boolean;
 }
@@ -42,6 +46,7 @@ export function BlogEditor({
   initialExcerpt = "",
   initialTags = [],
   initialCoverImage = "",
+  initialPublished = false,
   onSave,
   saving = false,
 }: Props) {
@@ -51,6 +56,7 @@ export function BlogEditor({
   const [tagsStr, setTagsStr] = useState(initialTags.join(", "));
   const [coverImage, setCoverImage] = useState(initialCoverImage);
   const [preview, setPreview] = useState(false);
+  const [published, setPublished] = useState(initialPublished);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const insert = useCallback((before: string, after = "") => {
@@ -125,12 +131,13 @@ export function BlogEditor({
     },
   ];
 
-  async function handleSave() {
+  async function handleSave(publish: boolean) {
     const tags = tagsStr
       .split(",")
       .map((t) => t.trim())
       .filter(Boolean);
-    await onSave({ title, content, excerpt, tags, coverImage });
+    setPublished(publish);
+    await onSave({ title, content, excerpt, tags, coverImage, published: publish });
   }
 
   function handleCoverUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -243,15 +250,42 @@ export function BlogEditor({
         </div>
       </div>
 
-      <div className="flex justify-end gap-3 pt-4 border-t border-[#E5EAF4]">
-        <Button
-          onClick={handleSave}
-          disabled={saving || !title.trim() || !content.trim()}
-          className="rounded-button bg-brand-gradient text-white font-heading font-semibold shadow-brand-md hover:brightness-110"
-        >
-          {saving && <Loader2 className="size-4 animate-spin mr-2" />}
-          Save Post
-        </Button>
+      <div className="flex items-center justify-between pt-4 border-t border-[#E5EAF4]">
+        <div className="flex items-center gap-2">
+          <span
+            className={`inline-flex items-center gap-1.5 font-body text-xs font-medium px-2.5 py-1 rounded-full ${
+              published
+                ? "bg-green-50 text-green-700 border border-green-200"
+                : "bg-yellow-50 text-yellow-700 border border-yellow-200"
+            }`}
+          >
+            {published ? (
+              <Globe className="size-3" />
+            ) : (
+              <FileEdit className="size-3" />
+            )}
+            {published ? "Published" : "Draft"}
+          </span>
+        </div>
+        <div className="flex gap-3">
+          <Button
+            onClick={() => handleSave(false)}
+            disabled={saving || !title.trim() || !content.trim()}
+            variant="outline"
+            className="rounded-button font-heading font-semibold"
+          >
+            {saving && <Loader2 className="size-4 animate-spin mr-2" />}
+            Save as Draft
+          </Button>
+          <Button
+            onClick={() => handleSave(true)}
+            disabled={saving || !title.trim() || !content.trim()}
+            className="rounded-button bg-brand-gradient text-white font-heading font-semibold shadow-brand-md hover:brightness-110"
+          >
+            {saving && <Loader2 className="size-4 animate-spin mr-2" />}
+            Publish
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -89,6 +89,7 @@ function NewPostInner() {
     excerpt: string;
     tags: string[];
     coverImage: string;
+    published: boolean;
   }) {
     setSaving(true);
     setError("");
@@ -123,7 +124,7 @@ function NewPostInner() {
           content: data.content,
           tags: data.tags,
           coverImage: effectiveCover,
-          published: 1,
+          published: data.published ? 1 : 0,
         }),
       });
 
