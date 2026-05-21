@@ -15,6 +15,7 @@ import {
   FileText,
   Sparkles,
 } from "lucide-react";
+import { parseTags } from "@/lib/blog";
 
 interface Post {
   id: number;
@@ -162,9 +163,9 @@ export default function DashboardPage() {
                         {post.excerpt}
                       </p>
                     )}
-                    {post.tags && post.tags !== "[]" && (
+                    {parseTags(post.tags).length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mt-2">
-                        {JSON.parse(post.tags).map(
+                        {parseTags(post.tags).map(
                           (tag: string) =>
                             tag && (
                               <span

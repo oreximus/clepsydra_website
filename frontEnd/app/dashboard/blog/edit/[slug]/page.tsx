@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BlogEditor } from "@/components/blog-editor";
 import { ArrowLeft, Loader2, Check } from "lucide-react";
+import { parseTags } from "@/lib/blog";
 
 export default function EditPostPage() {
   const router = useRouter();
@@ -134,9 +135,7 @@ export default function EditPostPage() {
         initialContent={post.content}
         initialExcerpt={post.excerpt}
         initialPublished={post.published === 1}
-        initialTags={
-          post.tags ? JSON.parse(post.tags) : []
-        }
+        initialTags={parseTags(post.tags)}
         initialCoverImage={
           post.cover_image
             ? post.cover_image.startsWith("http") ||
