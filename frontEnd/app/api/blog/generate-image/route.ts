@@ -41,10 +41,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const contentType = response.headers.get("content-type") || "";
+
+    if (contentType.startsWith("image/")) {
+      const buffer = Buffer.from(await response.arrayBuffer());
+      const base64 = `data:${contentType};base64,${buffer.toString("base64")}`;
+      return NextResponse.json({ imageUrl: base64 });
+    }
+
     const data = await response.json();
 
     if (data.result?.image) {
-      return NextResponse.json({ imageUrl: data.result.image });
+      const image = data.result.image;
+      const imageUrl = image.startsWith("data:") ? image : `data:image/png;base64,${image}`;
+      return NextResponse.json({ imageUrl });
     }
 
     if (Array.isArray(data.result)) {

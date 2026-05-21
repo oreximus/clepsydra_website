@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Sparkles, ImageIcon, Send, Check } from "lucide-react";
+import { Loader2, Sparkles, ImageIcon, Send, Check, LogOut } from "lucide-react";
 import { slugify } from "@/lib/blog";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
 
 export default function AdminBlogPage() {
+  const { data: session } = useSession();
   const [topic, setTopic] = useState("");
   const [generating, setGenerating] = useState(false);
   const [generatingImage, setGeneratingImage] = useState(false);
@@ -87,8 +88,9 @@ export default function AdminBlogPage() {
           title: article.title,
           excerpt: article.excerpt,
           content: article.content,
+          tags: article.tags,           // ← was missing before
           coverImage,
-          author: "Clepsydra Technologies",
+          author: session?.user?.name || "Clepsydra Technologies",
         }),
       });
       const data = await res.json();
@@ -105,13 +107,31 @@ export default function AdminBlogPage() {
     <div className="min-h-screen bg-surface-off">
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-12">
         <div className="mb-10">
-          <div className="section-label">Admin</div>
-          <h1 className="font-heading text-[2rem] font-bold text-brand-navy-deep mt-2">
-            Blog Article Generator
-          </h1>
-          <p className="font-body text-muted-foreground mt-2">
-            Enter a topic to generate, preview, and publish a blog article.
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="section-label">Admin</div>
+              <h1 className="font-heading text-[2rem] font-bold text-brand-navy-deep mt-2">
+                Blog Article Generator
+              </h1>
+              <p className="font-body text-muted-foreground mt-2">
+                Enter a topic to generate, preview, and publish a blog article.
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="font-body text-sm text-muted-foreground">
+                {session?.user?.name}
+              </span>
+              <Button
+                onClick={() => signOut()}
+                variant="outline"
+                size="sm"
+                className="rounded-button font-heading font-semibold"
+              >
+                <LogOut className="size-4 mr-1.5" />
+                Sign Out
+              </Button>
+            </div>
+          </div>
         </div>
 
         <Card className="border-[#E5EAF4] shadow-brand-sm rounded-card bg-white mb-8">

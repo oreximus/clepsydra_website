@@ -7,7 +7,7 @@ const PUBLIC_DIR = path.join(process.cwd(), "public/content/blog");
 
 export async function POST(request: NextRequest) {
   try {
-    const { slug, title, excerpt, content, coverImage, author } =
+    const { slug, title, excerpt, content, coverImage, author, tags } =
       await request.json();
 
     if (!slug || !title || !content) {
@@ -23,11 +23,21 @@ export async function POST(request: NextRequest) {
     }
 
     let coverFilename = "";
-    if (coverImage && coverImage.startsWith("http")) {
+    if (coverImage) {
       try {
-        const imgRes = await fetch(coverImage);
-        if (imgRes.ok) {
-          const buffer = Buffer.from(await imgRes.arrayBuffer());
+        let buffer: Buffer | null = null;
+
+        if (coverImage.startsWith("data:")) {
+          const base64 = coverImage.split(",")[1];
+          buffer = Buffer.from(base64, "base64");
+        } else if (coverImage.startsWith("http")) {
+          const imgRes = await fetch(coverImage);
+          if (imgRes.ok) {
+            buffer = Buffer.from(await imgRes.arrayBuffer());
+          }
+        }
+
+        if (buffer) {
           coverFilename = "cover.jpg";
           const publicPostDir = path.join(PUBLIC_DIR, slug);
           if (!fs.existsSync(publicPostDir)) {
@@ -36,9 +46,16 @@ export async function POST(request: NextRequest) {
           fs.writeFileSync(path.join(publicPostDir, coverFilename), buffer);
         }
       } catch (err) {
-        console.error("Failed to download cover image:", err);
+        console.error("Failed to save cover image:", err);
       }
     }
+
+    // Properly serialize tags array into YAML
+    const normalizedTags: string[] = Array.isArray(tags) ? tags : [];
+    const tagsYaml =
+      normalizedTags.length > 0
+        ? `[${normalizedTags.map((t) => `"${t.replace(/"/g, '\\"')}"`).join(", ")}]`
+        : "[]";
 
     const frontmatter = [
       "---",
@@ -46,7 +63,7 @@ export async function POST(request: NextRequest) {
       `excerpt: "${(excerpt || "").replace(/"/g, '\\"')}"`,
       `date: "${new Date().toISOString()}"`,
       `author: "${(author || "Clepsydra Technologies").replace(/"/g, '\\"')}"`,
-      `tags: []`,
+      `tags: ${tagsYaml}`,
       ...(coverFilename ? [`coverImage: "${coverFilename}"`] : []),
       "---",
       "",

@@ -4,7 +4,8 @@ import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
-import { Footer } from "@/components/footer";
+import { ConditionalFooter } from "@/components/conditional-footer";
+import { AuthSessionProvider } from "@/components/session-provider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -48,8 +49,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Footer />
+          <AuthSessionProvider>
+            {children}
+          </AuthSessionProvider>
+          <ConditionalFooter />
           <Toaster />
         </ThemeProvider>
       </body>

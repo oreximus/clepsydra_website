@@ -13,15 +13,15 @@ import {
 } from "lucide-react";
 
 const services = [
-  { label: "Web Development", href: "#services" },
-  { label: "Mobile Apps", href: "#services" },
-  { label: "AI Automation", href: "#services" },
-  { label: "Data Analytics", href: "#services" },
+  { label: "Web Development", href: "/#services" },
+  { label: "Mobile Apps", href: "/#services" },
+  { label: "AI Automation", href: "/#services" },
+  { label: "Data Analytics", href: "/#services" },
 ];
 
 const company = [
-  { label: "About Us", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "About Us", href: "/#about" },
+  { label: "Contact", href: "/#contact" },
   { label: "Explore", href: "/clepsydra_links" },
 ];
 

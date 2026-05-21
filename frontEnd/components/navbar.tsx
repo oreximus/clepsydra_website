@@ -3,16 +3,17 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, LogIn, PenLine } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { QuoteModal } from "@/components/quote-modal";
 
 const navLinks = [
-  { href: "#services", label: "Services" },
-  { href: "#about", label: "About" },
+  { href: "/#services", label: "Services" },
+  { href: "/#about", label: "About" },
   { href: "/blog", label: "Blog" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#contact", label: "Contact" },
   { href: "/clepsydra_links", label: "Explore" },
 ];
 
@@ -20,6 +21,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,6 +67,25 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          {status === "loading" ? (
+            <div className="size-8 rounded-full bg-[#E5EAF4] animate-pulse" />
+          ) : session ? (
+            <Link
+              href="/dashboard"
+              className="font-heading text-sm font-medium text-brand-blue hover:text-brand-navy transition-colors flex items-center gap-1.5"
+            >
+              <PenLine className="size-3.5" />
+              {session.user?.name}
+            </Link>
+          ) : (
+            <Link
+              href="/auth/login"
+              className="font-heading text-sm font-medium text-[#374151] hover:text-[#1A3A8A] transition-colors flex items-center gap-1.5"
+            >
+              <LogIn className="size-3.5" />
+              Sign In
+            </Link>
+          )}
           <Button
             onClick={() => setQuoteOpen(true)}
             className="rounded-button bg-brand-gradient text-white font-heading font-semibold px-5 py-2.5 shadow-brand-md hover:brightness-110 hover:-translate-y-0.5 transition-all duration-200"
@@ -107,6 +128,25 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              {status === "loading" ? null : session ? (
+                <Link
+                  href="/dashboard"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="font-heading text-base font-medium text-brand-blue py-3 transition-colors flex items-center gap-1.5"
+                >
+                  <PenLine className="size-4" />
+                  {session.user?.name}
+                </Link>
+              ) : (
+                <Link
+                  href="/auth/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="font-heading text-base font-medium text-[#374151] hover:text-[#1A3A8A] py-3 transition-colors flex items-center gap-1.5"
+                >
+                  <LogIn className="size-4" />
+                  Sign In
+                </Link>
+              )}
               <Button
                 onClick={() => { setQuoteOpen(true); setMobileMenuOpen(false); }}
                 className="mt-2 rounded-button bg-brand-gradient text-white font-heading font-semibold w-full shadow-brand-md hover:brightness-110 transition-all duration-200"
