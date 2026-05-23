@@ -245,14 +245,14 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-2 font-body text-xs text-white/45">
             <Link
-              href="#"
+              href="/privacy"
               className="hover:text-white/75 transition-colors duration-200"
             >
               Privacy Policy
             </Link>
             <span>&middot;</span>
             <Link
-              href="#"
+              href="/terms"
               className="hover:text-white/75 transition-colors duration-200"
             >
               Terms of Service

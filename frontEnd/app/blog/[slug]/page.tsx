@@ -7,6 +7,7 @@ import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { Navbar } from "@/components/navbar";
 import { getPublishedPostBySlug } from "@/lib/db";
 import { rowToBlogPost } from "@/lib/blog";
+import { ArticleJsonLd } from "@/components/json-ld";
 
 interface Props {
   params: { slug: string };
@@ -42,8 +43,18 @@ export default async function BlogPostPage({ params }: Props) {
   if (!row) notFound();
   const post = rowToBlogPost(row);
 
+  const postUrl = `https://clepsydratechnologies.com/blog/${post.slug}`;
+
   return (
     <div className="min-h-screen bg-white">
+      <ArticleJsonLd
+        title={post.title}
+        description={post.excerpt}
+        url={postUrl}
+        image={post.coverImage || undefined}
+        datePublished={post.date}
+        author={post.author}
+      />
       <Navbar />
 
       <main className="pt-24">

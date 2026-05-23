@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { ConditionalFooter } from "@/components/conditional-footer";
 import { AuthSessionProvider } from "@/components/session-provider";
+import { OrganizationJsonLd } from "@/components/json-ld";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -19,10 +20,16 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 });
 
+const baseUrl = "https://clepsydratechnologies.com";
+
 export const metadata: Metadata = {
-  title: "Clepsydra Technologies — Timeless Precision, Modern Solutions",
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: "Clepsydra Technologies — Timeless Precision, Modern Solutions",
+    template: "%s — Clepsydra Technologies",
+  },
   description:
-    "Clepsydra Technologies delivers timeless precision through modern software solutions.",
+    "Clepsydra Technologies delivers timeless precision through modern software solutions for web, mobile, AI automation, data analytics, and more.",
   icons: {
     icon: [
       { url: "/images/logo-icon-transparent.png", sizes: "any" },
@@ -30,6 +37,27 @@ export const metadata: Metadata = {
     apple: [
       { url: "/images/logo-icon-transparent.png", sizes: "180x180", type: "image/png" },
     ],
+  },
+  alternates: {
+    canonical: baseUrl,
+  },
+  openGraph: {
+    title: "Clepsydra Technologies — Timeless Precision, Modern Solutions",
+    description:
+      "Clepsydra Technologies delivers timeless precision through modern software solutions for web, mobile, AI automation, data analytics, and more.",
+    url: baseUrl,
+    siteName: "Clepsydra Technologies",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Clepsydra Technologies — Timeless Precision, Modern Solutions",
+    description:
+      "Clepsydra Technologies delivers timeless precision through modern software solutions for web, mobile, AI automation, data analytics, and more.",
+  },
+  other: {
+    "google-site-verification": "google768f7fabe972629d",
   },
 };
 
@@ -43,6 +71,7 @@ export default function RootLayout({
       <body
         className={`${plusJakartaSans.variable} ${inter.variable} font-body antialiased`}
       >
+        <OrganizationJsonLd />
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
