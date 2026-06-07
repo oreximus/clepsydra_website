@@ -7,6 +7,24 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "Privacy Policy for Clepsydra Technologies — how we collect, use, and protect your information.",
+  openGraph: {
+    title: "Privacy Policy — Clepsydra Technologies",
+    description:
+      "Privacy Policy for Clepsydra Technologies — how we collect, use, and protect your information.",
+    url: "https://clepsydratechnologies.com/privacy",
+    siteName: "Clepsydra Technologies",
+    type: "website",
+    locale: "en_US",
+  },
+  alternates: {
+    canonical: "https://clepsydratechnologies.com/privacy",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy — Clepsydra Technologies",
+    description:
+      "Privacy Policy for Clepsydra Technologies — how we collect, use, and protect your information.",
+  },
 };
 
 export default function PrivacyPage() {

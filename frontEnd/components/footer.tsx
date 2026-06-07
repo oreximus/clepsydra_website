@@ -100,7 +100,7 @@ export function Footer() {
                   alt="Clepsydra Technologies"
                   width={52}
                   height={52}
-                  className="size-13"
+                  className="size-[52px]"
                 />
                 <div>
                   <span className="font-heading font-bold text-white text-xl">

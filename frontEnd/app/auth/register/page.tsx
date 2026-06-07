@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,10 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    document.title = "Create Account — Clepsydra Technologies";
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -76,10 +80,11 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="font-body text-sm font-medium text-brand-navy-deep block mb-1.5">
+              <label htmlFor="reg-name" className="font-body text-sm font-medium text-brand-navy-deep block mb-1.5">
                 Name
               </label>
               <Input
+                id="reg-name"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -88,10 +93,11 @@ export default function RegisterPage() {
               />
             </div>
             <div>
-              <label className="font-body text-sm font-medium text-brand-navy-deep block mb-1.5">
+              <label htmlFor="reg-email" className="font-body text-sm font-medium text-brand-navy-deep block mb-1.5">
                 Email
               </label>
               <Input
+                id="reg-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -100,10 +106,11 @@ export default function RegisterPage() {
               />
             </div>
             <div>
-              <label className="font-body text-sm font-medium text-brand-navy-deep block mb-1.5">
+              <label htmlFor="reg-password" className="font-body text-sm font-medium text-brand-navy-deep block mb-1.5">
                 Password
               </label>
               <Input
+                id="reg-password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

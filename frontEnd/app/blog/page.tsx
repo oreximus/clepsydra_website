@@ -10,9 +10,27 @@ export const metadata: Metadata = {
   title: "Blog — Clepsydra Technologies",
   description:
     "Insights, tutorials, and stories from Clepsydra Technologies on software development, technology trends, and digital product building.",
+  openGraph: {
+    title: "Blog — Clepsydra Technologies",
+    description:
+      "Insights, tutorials, and stories from Clepsydra Technologies on software development, technology trends, and digital product building.",
+    url: "https://clepsydratechnologies.com/blog",
+    siteName: "Clepsydra Technologies",
+    type: "website",
+    locale: "en_US",
+  },
+  alternates: {
+    canonical: "https://clepsydratechnologies.com/blog",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog — Clepsydra Technologies",
+    description:
+      "Insights, tutorials, and stories from Clepsydra Technologies on software development, technology trends, and digital product building.",
+  },
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 function readingTime(text: string): string {
   const wpm = 200;
@@ -64,6 +82,7 @@ export default async function BlogPage() {
                           src={featured.coverImage}
                           alt={featured.title}
                           fill
+                          sizes="(max-width: 768px) 100vw, 40vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
@@ -113,6 +132,7 @@ export default async function BlogPage() {
                             src={post.coverImage}
                             alt={post.title}
                             fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                             className="object-cover group-hover:scale-105 transition-transform duration-300"
                           />
                         </div>

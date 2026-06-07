@@ -5,7 +5,7 @@ import { ArrowLeft, Clock, User, Tag } from "lucide-react";
 import type { Metadata } from "next";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { Navbar } from "@/components/navbar";
-import { getPublishedPostBySlug } from "@/lib/db";
+import { getAllPublishedPosts, getPublishedPostBySlug } from "@/lib/db";
 import { rowToBlogPost } from "@/lib/blog";
 import { ArticleJsonLd } from "@/components/json-ld";
 
@@ -13,20 +13,42 @@ interface Props {
   params: { slug: string };
 }
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  try {
+    const posts = await getAllPublishedPosts();
+    return posts.map((post) => ({ slug: post.slug }));
+  } catch {
+    return [];
+  }
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const row = await getPublishedPostBySlug(params.slug);
   if (!row) return { title: "Not Found" };
   const post = rowToBlogPost(row);
 
+  const url = `https://clepsydratechnologies.com/blog/${post.slug}`;
+
   return {
     title: `${post.title} — Clepsydra Blog`,
     description: post.excerpt,
+    alternates: { canonical: url },
     openGraph: {
       title: post.title,
       description: post.excerpt,
+      url,
+      type: "article",
+      publishedTime: post.date,
       ...(post.coverImage ? { images: [{ url: post.coverImage }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      ...(post.coverImage ? { images: [post.coverImage] } : {}),
     },
   };
 }
@@ -111,6 +133,7 @@ export default async function BlogPostPage({ params }: Props) {
                 src={post.coverImage}
                 alt={post.title}
                 fill
+                sizes="(max-width: 768px) 100vw, 720px"
                 className="object-cover"
                 priority
               />

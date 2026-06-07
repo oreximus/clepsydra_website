@@ -15,6 +15,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    document.title = "Sign In — Clepsydra Technologies";
     const params = new URLSearchParams(window.location.search);
     if (params.get("error") === "CredentialsSignin") {
       setError("Invalid email or password");
@@ -52,10 +53,11 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="font-body text-sm font-medium text-brand-navy-deep block mb-1.5">
+              <label htmlFor="login-email" className="font-body text-sm font-medium text-brand-navy-deep block mb-1.5">
                 Email
               </label>
               <Input
+                id="login-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -64,10 +66,11 @@ export default function LoginPage() {
               />
             </div>
             <div>
-              <label className="font-body text-sm font-medium text-brand-navy-deep block mb-1.5">
+              <label htmlFor="login-password" className="font-body text-sm font-medium text-brand-navy-deep block mb-1.5">
                 Password
               </label>
               <Input
+                id="login-password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

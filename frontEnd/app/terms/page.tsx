@@ -7,6 +7,24 @@ export const metadata: Metadata = {
   title: "Terms of Service",
   description:
     "Terms of Service for Clepsydra Technologies — the terms governing your use of our website and services.",
+  openGraph: {
+    title: "Terms of Service — Clepsydra Technologies",
+    description:
+      "Terms of Service for Clepsydra Technologies — the terms governing your use of our website and services.",
+    url: "https://clepsydratechnologies.com/terms",
+    siteName: "Clepsydra Technologies",
+    type: "website",
+    locale: "en_US",
+  },
+  alternates: {
+    canonical: "https://clepsydratechnologies.com/terms",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms of Service — Clepsydra Technologies",
+    description:
+      "Terms of Service for Clepsydra Technologies — the terms governing your use of our website and services.",
+  },
 };
 
 export default function TermsPage() {
