@@ -9,6 +9,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    staleTimes: {
+      static: 0,
+    },
+  },
 }
 
 export default nextConfig

@@ -12,8 +12,9 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { slug, title, excerpt, content, tags, coverImage, published } =
-    await request.json();
+  const body = await request.json();
+  const { slug, title, excerpt, content, tags, published } = body;
+  const coverImage = body.coverImage;
 
   if (!slug || !title || !content) {
     return NextResponse.json(
@@ -31,8 +32,10 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  let coverFilename = coverImage || "";
-  if (coverImage && coverImage.startsWith("data:")) {
+  let coverFilename;
+  if (coverImage === undefined) {
+    coverFilename = (existing as any).cover_image;
+  } else if (coverImage.startsWith("data:")) {
     try {
       const publicDir = path.join(process.cwd(), "public/content/blog", slug);
       if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
@@ -42,6 +45,8 @@ export async function PUT(request: NextRequest) {
     } catch {
       coverFilename = coverImage;
     }
+  } else {
+    coverFilename = coverImage;
   }
 
   await updatePost(

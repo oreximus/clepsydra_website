@@ -123,7 +123,6 @@ function NewPostInner() {
           excerpt: data.excerpt,
           content: data.content,
           tags: data.tags,
-          coverImage: effectiveCover,
           published: data.published ? 1 : 0,
         }),
       });
