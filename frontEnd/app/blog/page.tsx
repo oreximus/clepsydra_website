@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 86400;
+export const dynamic = "force-dynamic";
 
 async function PostList() {
   const rows = await getAllPublishedPosts();
