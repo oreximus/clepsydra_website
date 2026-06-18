@@ -155,3 +155,7 @@ export async function getPublishedPostBySlug(slug: string) {
   );
   return result.rows[0] || null;
 }
+
+export async function updatePostCover(slug: string, coverImage: string) {
+  await query("UPDATE posts SET cover_image = $1, updated_at = NOW() WHERE slug = $2", [coverImage, slug]);
+}

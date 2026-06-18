@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ConditionalFooter } from "@/components/conditional-footer";
 import { AuthSessionProvider } from "@/components/session-provider";
 import { OrganizationJsonLd } from "@/components/json-ld";
+import { NavigationProgress } from "@/components/navigation-progress";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -71,6 +72,7 @@ export default function RootLayout({
       <body
         className={`${plusJakartaSans.variable} ${inter.variable} font-body antialiased`}
       >
+        <NavigationProgress />
         <OrganizationJsonLd />
         <ThemeProvider
           attribute="class"

@@ -2,6 +2,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { type NextRequest, NextResponse } from "next/server";
 import { initPostsTable, createPost } from "@/lib/db";
+import fs from "fs";
+import path from "path";
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -19,6 +21,19 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  let coverFilename = coverImage || "";
+  if (coverImage && coverImage.startsWith("data:")) {
+    try {
+      const publicDir = path.join(process.cwd(), "public/content/blog", slug);
+      if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
+      const base64 = coverImage.split(",")[1];
+      fs.writeFileSync(path.join(publicDir, "cover.jpg"), Buffer.from(base64, "base64"));
+      coverFilename = "cover.jpg";
+    } catch {
+      coverFilename = "";
+    }
+  }
+
   await initPostsTable();
   await createPost(
     Number(session.user.id),
@@ -27,7 +42,7 @@ export async function POST(request: NextRequest) {
     excerpt || "",
     content,
     JSON.stringify(tags || []),
-    coverImage || "",
+    coverFilename,
   );
 
   return NextResponse.json({ message: "Post created", slug }, { status: 201 });

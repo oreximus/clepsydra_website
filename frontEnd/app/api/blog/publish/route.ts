@@ -1,3 +1,5 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { type NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
@@ -6,6 +8,11 @@ const BLOG_DIR = path.join(process.cwd(), "content/blog");
 const PUBLIC_DIR = path.join(process.cwd(), "public/content/blog");
 
 export async function POST(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const { slug, title, excerpt, content, coverImage, author, tags } =
       await request.json();

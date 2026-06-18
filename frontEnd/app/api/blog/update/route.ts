@@ -39,7 +39,7 @@ export async function PUT(request: NextRequest) {
       fs.writeFileSync(path.join(publicDir, "cover.jpg"), Buffer.from(base64, "base64"));
       coverFilename = "cover.jpg";
     } catch {
-      coverFilename = coverImage;
+      coverFilename = (existing as any).cover_image || "";
     }
   }
 

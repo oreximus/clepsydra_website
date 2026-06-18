@@ -15,20 +15,21 @@ No test framework configured.
 
 ## Architecture
 
-- **Auth**: NextAuth v4 Credentials provider, JWT sessions, signIn at `/auth/login`. Guard done client-side via `DashboardAuthGuard` -- no `middleware.ts`.
+- **Auth**: NextAuth v4 Credentials provider, JWT sessions, signIn at `/auth/login`. Guard done client-side via `DashboardAuthGuard` — no `middleware.ts`.
 - **Database**: PostgreSQL via `pg` Pool, raw queries with `$1,$2` placeholders, no ORM. Tables auto-create via `initUsersTable()`/`initPostsTable()` called on demand from API routes.
-- **Blog storage**: Dual -- PostgreSQL for CRUD + `content/blog/[slug]/index.md` filesystem for SSG. Filesystem write on update is best-effort (silent fail on Vercel).
+- **Blog storage**: Dual — PostgreSQL for CRUD + `content/blog/[slug]/index.md` filesystem for SSG. Filesystem write on update is best-effort (silent fail on Vercel). New repos start with only a `.gitkeep` in `content/blog/`.
 - **AI**: Groq `llama-3.3-70b-versatile` for article gen (marker-based extraction: `---TITLE---`/`---CONTENT---`). Cloudflare Workers AI Stable Diffusion for cover images.
-- **Styling**: `styles/globals.css` (NOT `app/globals.css`). Tailwind config in `tailwind.config.js` (JS, not TS as `components.json` claims). Brand colors via `brand-*` tokens.
+- **Styling**: `styles/globals.css` (NOT `app/globals.css`). Tailwind config in `tailwind.config.js` (JS, not TS as `components.json` claims). Brand colors via `brand-*` tokens. Includes `@tailwindcss/typography` plugin.
 - **No dark mode**: `defaultTheme="light"`.
 - **Fonts**: Plus Jakarta Sans (heading), Inter (body) via `next/font/google`.
 
 ## Key quirks
 
-- Footer is `"use client"` (onMouseEnter/onMouseLeave). ConditionalFooter hides it on `/dashboard`, `/admin`, `/auth`.
-- `next.config.mjs` ignores both TS errors and ESLint during build (`ignoreBuildErrors: true`, `ignoreDuringBuilds: true`). The build will succeed even with type/ESLint errors.
+- Footer is `"use client"` (onMouseEnter/onMouseLeave). `ConditionalFooter` hides it on `/dashboard`, `/admin`, `/auth`.
+- `next.config.mjs` ignores both TS errors and ESLint during build (`ignoreBuildErrors: true`, `ignoreDuringBuilds: true`) and sets `images.unoptimized: true` (no image optimization for Vercel).
 - Cover image API handles both `image/*` Content-Type (raw PNG) and JSON with base64.
 - `robots.ts` disallows `/admin/`, `/dashboard/`, `/api/`, `/auth/`.
+- `prompt_for_ai.md` at `frontEnd/` root contains the original business requirements used to generate the site — consult it for business info, service descriptions, and contact/social links.
 
 ## Required env vars (`.env.local`)
 
