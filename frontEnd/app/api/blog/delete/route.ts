@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { type NextRequest, NextResponse } from "next/server";
 import { deletePost } from "@/lib/db";
+import { revalidatePath } from "next/cache";
 import fs from "fs";
 import path from "path";
 
@@ -23,6 +24,8 @@ export async function DELETE(request: NextRequest) {
   if (fs.existsSync(mdDir)) fs.rmSync(mdDir, { recursive: true, force: true });
   if (fs.existsSync(publicDir))
     fs.rmSync(publicDir, { recursive: true, force: true });
+
+  revalidatePath("/blog");
 
   return NextResponse.json({ message: "Post deleted" });
 }

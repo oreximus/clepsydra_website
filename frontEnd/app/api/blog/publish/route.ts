@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { type NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import fs from "fs";
 import path from "path";
 
@@ -77,6 +78,9 @@ export async function POST(request: NextRequest) {
     ].join("\n");
 
     fs.writeFileSync(path.join(postDir, "index.md"), frontmatter + content);
+
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${slug}`);
 
     return NextResponse.json({
       message: "Article published successfully",

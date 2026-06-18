@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { type NextRequest, NextResponse } from "next/server";
 import { initPostsTable, createPost } from "@/lib/db";
+import { revalidatePath } from "next/cache";
 import fs from "fs";
 import path from "path";
 
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
       fs.writeFileSync(path.join(publicDir, "cover.jpg"), Buffer.from(base64, "base64"));
       coverFilename = "cover.jpg";
     } catch {
-      coverFilename = "";
+      coverFilename = coverImage;
     }
   }
 
@@ -44,6 +45,9 @@ export async function POST(request: NextRequest) {
     JSON.stringify(tags || []),
     coverFilename,
   );
+
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${slug}`);
 
   return NextResponse.json({ message: "Post created", slug }, { status: 201 });
 }

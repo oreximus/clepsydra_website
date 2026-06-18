@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { type NextRequest, NextResponse } from "next/server";
 import { getPostBySlug, updatePost } from "@/lib/db";
+import { revalidatePath } from "next/cache";
 import fs from "fs";
 import path from "path";
 
@@ -39,7 +40,7 @@ export async function PUT(request: NextRequest) {
       fs.writeFileSync(path.join(publicDir, "cover.jpg"), Buffer.from(base64, "base64"));
       coverFilename = "cover.jpg";
     } catch {
-      coverFilename = (existing as any).cover_image || "";
+      coverFilename = coverImage;
     }
   }
 
@@ -52,6 +53,9 @@ export async function PUT(request: NextRequest) {
     coverFilename,
     published ? 1 : 0,
   );
+
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${slug}`);
 
   try {
     const mdDir = path.join(process.cwd(), "content/blog", slug);
