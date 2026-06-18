@@ -47,11 +47,13 @@ export function rowToBlogPost(row: DbPostRow): BlogPost {
     date: row.created_at,
     author: row.author_name || "Clepsydra Technologies",
     tags: parseTags(row.tags),
-    coverImage: row.cover_image?.startsWith("http") || row.cover_image?.startsWith("data:")
-      ? row.cover_image
-      : row.cover_image
-        ? `/content/blog/${row.slug}/${row.cover_image}`
-        : "",
+    coverImage: row.cover_image?.startsWith("data:")
+      ? `/api/blog/cover/${row.slug}`
+      : row.cover_image?.startsWith("http")
+        ? row.cover_image
+        : row.cover_image
+          ? `/content/blog/${row.slug}/${row.cover_image}`
+          : "",
     content: row.content,
   };
 }
