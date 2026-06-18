@@ -51,12 +51,14 @@ export default function DashboardPage() {
   async function handleDelete(slug: string) {
     if (!confirm("Delete this post permanently?")) return;
     setDeleting(slug);
-    await fetch("/api/blog/delete", {
+    const res = await fetch("/api/blog/delete", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ slug }),
     });
-    setPosts((p) => p.filter((post) => post.slug !== slug));
+    if (res.ok) {
+      setPosts((p) => p.filter((post) => post.slug !== slug));
+    }
     setDeleting(null);
   }
 

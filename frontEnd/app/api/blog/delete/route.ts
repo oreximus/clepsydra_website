@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { type NextRequest, NextResponse } from "next/server";
-import { deletePost } from "@/lib/db";
+import { getPostBySlug, deletePost } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import fs from "fs";
 import path from "path";
@@ -17,6 +17,15 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "slug is required" }, { status: 400 });
   }
 
+  const existing = await getPostBySlug(slug);
+  if (!existing) {
+    return NextResponse.json({ error: "Post not found" }, { status: 404 });
+  }
+
+  if ((existing as any).user_id !== Number(session.user.id)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   await deletePost(slug, Number(session.user.id));
 
   const mdDir = path.join(process.cwd(), "content/blog", slug);
@@ -26,6 +35,7 @@ export async function DELETE(request: NextRequest) {
     fs.rmSync(publicDir, { recursive: true, force: true });
 
   revalidatePath("/blog");
+  revalidatePath(`/blog/${slug}`);
 
   return NextResponse.json({ message: "Post deleted" });
 }
