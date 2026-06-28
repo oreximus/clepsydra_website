@@ -30,6 +30,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ContactForm } from "@/components/contact-form";
 import { ServiceQueryModal } from "@/components/service-query-modal";
 import { Navbar } from "@/components/navbar";
+import PortfolioSection from "@/components/portfolio-section";
 import dynamic from "next/dynamic";
 
 const TechStackSection = dynamic(() => import("@/components/tech-stack"), {
@@ -643,6 +644,9 @@ export default function LandingPageClient() {
             </div>
           </div>
         </section>
+
+        {/* ===== PORTFOLIO SECTION ===== */}
+        <PortfolioSection />
 
         {/* ===== CTA SECTION ===== */}
         <section className="py-20 md:py-24 bg-hero-gradient relative overflow-hidden">

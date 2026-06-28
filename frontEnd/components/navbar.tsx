@@ -11,6 +11,7 @@ import { QuoteModal } from "@/components/quote-modal";
 
 const navLinks = [
   { href: "/#services", label: "Services" },
+  { href: "/portfolio", label: "Portfolio" },
   { href: "/#about", label: "About" },
   { href: "/blog", label: "Blog" },
   { href: "/#contact", label: "Contact" },
