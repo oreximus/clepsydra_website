@@ -10,7 +10,7 @@ export function OrganizationJsonLd() {
       "Clepsydra Technologies delivers timeless precision through modern software solutions for web, mobile, AI automation, data analytics, and more.",
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+91-6267665525",
+      telephone: "+91-9474448909",
       email: "clepsydratechnologies@gmail.com",
       contactType: "customer service",
     },

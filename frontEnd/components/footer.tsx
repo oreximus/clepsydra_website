@@ -182,7 +182,7 @@ export function Footer() {
               <ul className="space-y-4">
                 <li>
                   <a
-                    href="tel:+916267665525"
+                    href="tel:+919474448909"
                     className="flex items-start gap-3 font-body text-sm text-white/70 hover:text-white transition-colors duration-200 max-md:justify-center max-md:text-center"
                   >
                     <span
@@ -193,7 +193,7 @@ export function Footer() {
                     >
                       <PhoneCall size={15} className="text-brand-sky" />
                     </span>
-                    <span className="pt-0.5">+91 6267665525</span>
+                    <span className="pt-0.5">+91 9474448909</span>
                   </a>
                 </li>
                 <li>
@@ -216,7 +216,7 @@ export function Footer() {
                 </li>
                 <li>
                   <a
-                    href="http://wa.me/916267665525"
+                    href="http://wa.me/919474448909"
                     className="flex items-start gap-3 font-body text-sm text-white/70 hover:text-white transition-colors duration-200 max-md:justify-center"
                   >
                     <span

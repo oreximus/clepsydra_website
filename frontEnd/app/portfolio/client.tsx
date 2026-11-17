@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   ExternalLink,
+  Eye,
   Globe,
   ArrowLeft,
   ChevronRight,
@@ -20,20 +22,22 @@ import {
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/navbar";
 import Image from "next/image";
+import { LiveFrame, LivePreviewModal } from "@/components/live-preview-modal";
 
 interface LiveProject {
   title: string;
   tagline: string;
   description: string;
   url: string;
-  screenshots: string[];
+  /** Static image used when the site cannot be embedded (login-only or X-Frame-Options blocked) */
+  screenshot?: string;
   tech: string[];
   gradient: string;
   accent: string;
   features: string[];
-  results: string;
-  timeline: string;
-  teamSize: string;
+  results?: string;
+  timeline?: string;
+  teamSize?: string;
 }
 
 interface DesignCategory {
@@ -53,7 +57,7 @@ const liveProjects: LiveProject[] = [
     description:
       "A modern platform that gives every pet a unique QR-based digital identity. Pet owners can create profiles with medical records, vaccination history, and contact details. When scanned, the QR code instantly displays the pet's information and owner contact — dramatically increasing the chances of reuniting lost pets with their families.",
     url: "https://tailsinfo.com/",
-    screenshots: ["/images/tailsinfo_web1.png"],
+    screenshot: "/images/portfolio/tailsinfo.jpg",
     tech: ["Next.js", "PostgreSQL", "QR Code Generation", "Tailwind CSS", "Cloud Hosting"],
     gradient: "from-amber-600 via-orange-500 to-rose-500",
     accent: "#D97706",
@@ -74,7 +78,6 @@ const liveProjects: LiveProject[] = [
     description:
       "A professional-grade website for a security firm staffed by ex-NSG, ex-Special Forces, and ex-Military personnel. The site communicates trust, authority, and ISO-certified quality standards across services including manned guarding, surveillance, and risk assessment for banks, construction sites, and commercial establishments across India.",
     url: "https://www.trikalsecurity.com/",
-    screenshots: ["/images/trikal_security_web.png"],
     tech: ["Next.js", "Tailwind CSS", "Framer Motion", "Responsive Design", "SEO Optimized"],
     gradient: "from-slate-900 via-slate-800 to-slate-700",
     accent: "#0F172A",
@@ -95,7 +98,6 @@ const liveProjects: LiveProject[] = [
     description:
       "A visually stunning photography portfolio website showcasing creative work with immersive galleries, smooth transitions, and a minimalist design that puts the imagery front and center. Built with modern web technologies for optimal performance and visual impact across all devices.",
     url: "https://www.gulshankhalkho.studio/",
-    screenshots: ["/images/gulshankhalkho-web1.png"],
     tech: ["Next.js", "Framer Motion", "Tailwind CSS", "Responsive Design", "SEO Optimized"],
     gradient: "from-rose-700 via-pink-600 to-purple-500",
     accent: "#BE185D",
@@ -109,6 +111,98 @@ const liveProjects: LiveProject[] = [
     results: "A beautiful digital presence that showcases creative work with the visual impact it deserves — driving client inquiries through an elegant, fast-loading portfolio.",
     timeline: "4 weeks",
     teamSize: "2 developers, 1 designer",
+  },
+  {
+    title: "Hotel The Mumbai Resort",
+    tagline: "Hotel, Banquet Hall & Restaurant",
+    description:
+      "Website for Hotel The Mumbai Resort in Kolaras, Shivpuri (MP). The property's AC rooms, poolside deck, wedding and kitty-party banquet halls, and home-style restaurant are presented with a full gallery, guest reviews and FAQs — with bookings handled directly over WhatsApp.",
+    url: "https://hotelthemumbairesort.com/",
+    tech: ["Next.js", "Tailwind CSS", "WhatsApp Booking", "Local SEO", "Responsive Design"],
+    gradient: "from-stone-700 via-amber-600 to-orange-500",
+    accent: "#B45309",
+    features: [
+      "Room and suite showcase with photo galleries",
+      "Banquet, wedding and kitty-party hall pages",
+      "Restaurant and home-style dining section",
+      "One-tap WhatsApp booking enquiries",
+      "Guest reviews and FAQ with structured data",
+      "Local SEO for Shivpuri / Kolaras searches",
+    ],
+  },
+  {
+    title: "Dabbik",
+    tagline: "Mess & Tiffin Marketplace + Kitchen Console",
+    description:
+      "A two-sided platform for daily food: students and professionals compare verified messes and doorstep tiffin services with live menus and honest prices, while kitchens get a console covering QR attendance, member plans, tiffin delivery and accounts in one place.",
+    url: "https://dabbik.com/",
+    screenshot: "/images/portfolio/dabbik.jpg",
+    tech: ["Next.js", "PostgreSQL", "QR Attendance", "Tailwind CSS", "Role-based Access"],
+    gradient: "from-lime-600 via-green-600 to-emerald-600",
+    accent: "#16A34A",
+    features: [
+      "Verified mess and tiffin discovery",
+      "Live menus and price comparison",
+      "Kitchen console with QR attendance",
+      "Member plans and subscription tracking",
+      "Tiffin delivery and accounts management",
+    ],
+  },
+  {
+    title: "Worm Cleaner",
+    tagline: "Open-Source Mac & Windows Storage Cleaner",
+    description:
+      "A free, MIT-licensed desktop cleaner for macOS and Windows. It purges Xcode DerivedData, npm, Homebrew and Cargo caches, removes app leftovers, uninstalls apps completely and monitors CPU/RAM — built native in Swift and .NET, with no telemetry and safe-by-default rules.",
+    url: "https://worm.clepsydratechnologies.com/",
+    screenshot: "/images/portfolio/worm.jpg",
+    tech: ["Swift (macOS)", ".NET / C# (Windows)", "MIT Licensed", "No Telemetry"],
+    gradient: "from-cyan-700 via-teal-600 to-emerald-500",
+    accent: "#0891B2",
+    features: [
+      "Clears Xcode DerivedData and developer caches",
+      "npm, Homebrew and Cargo cache cleanup",
+      "Complete app uninstall with leftover removal",
+      "Live CPU and RAM monitoring",
+      "Native builds for macOS and Windows",
+      "Open source under MIT, no telemetry",
+    ],
+  },
+  {
+    title: "ORVOPS HMS",
+    tagline: "Multi-Tenant Hospital Management System",
+    description:
+      "An enterprise hospital management system built by Clepsydra. Multi-tenant by design — one deployment serving multiple hospitals with isolated data — covering patient records, appointments, billing and role-based staff access behind a secure login.",
+    url: "https://hms.orvops.com/",
+    screenshot: "/images/portfolio/hms-orvops.jpg",
+    tech: ["Next.js", "PostgreSQL", "Multi-Tenant Architecture", "Tailwind CSS", "Role-based Access"],
+    gradient: "from-sky-800 via-blue-700 to-indigo-600",
+    accent: "#1D4ED8",
+    features: [
+      "Multi-tenant isolation per hospital",
+      "Patient registration and medical records",
+      "Appointments and department scheduling",
+      "Billing and invoicing workflows",
+      "Role-based access for doctors, staff and admins",
+      "Secure authentication with audit trails",
+    ],
+  },
+  {
+    title: "Clepsydra ERP",
+    tagline: "AI-Powered ERP & Lead Generation Platform",
+    description:
+      "Our own ERP and lead-generation platform: sales pipeline, operations and reporting in a single console, with AI assistance and secure role-based sign-in — the internal system we run Clepsydra Technologies on.",
+    url: "https://erp.clepsydratechnologies.com/",
+    screenshot: "/images/portfolio/clepsydra-erp.jpg",
+    tech: ["Next.js", "PostgreSQL", "AI-Assisted Workflows", "Tailwind CSS", "JWT Auth"],
+    gradient: "from-violet-800 via-purple-700 to-fuchsia-600",
+    accent: "#7C3AED",
+    features: [
+      "Lead capture and pipeline tracking",
+      "AI-assisted content and outreach",
+      "Operational dashboards and reporting",
+      "Role-based access control",
+      "Secure JWT authentication",
+    ],
   },
 ];
 
@@ -172,26 +266,27 @@ const designCategories: DesignCategory[] = [
   },
 ];
 
-function ScreenshotPreview({ project }: { project: LiveProject }) {
-  return (
-    <div className="relative w-full bg-[#F1F5F9] overflow-hidden rounded-b-lg">
-      <div className="relative w-full aspect-video">
+function PreviewFrame({ project }: { project: LiveProject }) {
+  if (project.screenshot) {
+    return (
+      <div className="relative w-full aspect-video bg-[#F1F5F9] overflow-hidden">
         <Image
-          src={project.screenshots[0]}
+          src={project.screenshot}
           alt={`${project.title} screenshot`}
           fill
-          className="object-contain"
+          className="object-cover object-top"
           sizes="(max-width: 768px) 100vw, 50vw"
-          priority
         />
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#F1F5F9] to-transparent pointer-events-none" />
-    </div>
-  );
+    );
+  }
+
+  return <LiveFrame url={project.url} title={project.title} />;
 }
 
 function LiveProjectDetail({ project, index }: { project: LiveProject; index: number }) {
   const isReversed = index % 2 === 1;
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   return (
     <motion.div
@@ -204,22 +299,33 @@ function LiveProjectDetail({ project, index }: { project: LiveProject; index: nu
       {/* Preview */}
       <div className="flex-1 min-w-0">
         <div className="rounded-xl overflow-hidden bg-white shadow-brand-md border border-[#E5EAF4] hover:shadow-xl transition-shadow duration-300">
-          <div className="flex items-center gap-2 px-4 py-3 bg-[#F1F5F9] border-b border-[#E5EAF4]">
-            <div className="flex gap-1.5">
-              <div className="size-3 rounded-full bg-red-400" />
-              <div className="size-3 rounded-full bg-yellow-400" />
-              <div className="size-3 rounded-full bg-green-400" />
-            </div>
-            <div className="flex-1 flex items-center justify-center min-w-0">
-              <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-[#E5EAF4] max-w-[90%]">
-                <Globe className="size-3 text-muted-foreground shrink-0" />
-                <span className="font-body text-xs text-muted-foreground truncate">
-                  {project.url.replace(/^https?:\/\//, "")}
-                </span>
+          <button
+            type="button"
+            onClick={() => setPreviewOpen(true)}
+            aria-label={`Open ${project.title} preview`}
+            className="group/preview relative block w-full text-left cursor-pointer"
+          >
+            <div className="flex items-center gap-2 px-4 py-3 bg-[#F1F5F9] border-b border-[#E5EAF4]">
+              <div className="flex gap-1.5">
+                <div className="size-3 rounded-full bg-red-400" />
+                <div className="size-3 rounded-full bg-yellow-400" />
+                <div className="size-3 rounded-full bg-green-400" />
+              </div>
+              <div className="flex-1 flex items-center justify-center min-w-0">
+                <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-[#E5EAF4] max-w-[90%]">
+                  <Globe className="size-3 text-muted-foreground shrink-0" />
+                  <span className="font-body text-xs text-muted-foreground truncate">
+                    {project.url.replace(/^https?:\/\//, "")}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-          <ScreenshotPreview project={project} />
+            <PreviewFrame project={project} />
+            <span className="pointer-events-none absolute right-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-brand-navy-deep/90 px-3 py-1.5 font-heading text-xs font-semibold text-white opacity-0 group-hover/preview:opacity-100 transition-opacity">
+              <Eye className="size-3.5" />
+              Open preview
+            </span>
+          </button>
         </div>
       </div>
 
@@ -235,16 +341,22 @@ function LiveProjectDetail({ project, index }: { project: LiveProject; index: nu
           {project.description}
         </p>
 
-        <div className="flex flex-wrap gap-4 mb-6">
-          <div className="flex items-center gap-2 font-body text-sm text-muted-foreground">
-            <Clock className="size-4 text-brand-sky" />
-            {project.timeline}
+        {(project.timeline || project.teamSize) && (
+          <div className="flex flex-wrap gap-4 mb-6">
+            {project.timeline && (
+              <div className="flex items-center gap-2 font-body text-sm text-muted-foreground">
+                <Clock className="size-4 text-brand-sky" />
+                {project.timeline}
+              </div>
+            )}
+            {project.teamSize && (
+              <div className="flex items-center gap-2 font-body text-sm text-muted-foreground">
+                <Users className="size-4 text-brand-sky" />
+                {project.teamSize}
+              </div>
+            )}
           </div>
-          <div className="flex items-center gap-2 font-body text-sm text-muted-foreground">
-            <Users className="size-4 text-brand-sky" />
-            {project.teamSize}
-          </div>
-        </div>
+        )}
 
         <div className="mb-6">
           <h4 className="font-heading text-sm font-semibold text-brand-navy-deep mb-3 flex items-center gap-2">
@@ -261,12 +373,14 @@ function LiveProjectDetail({ project, index }: { project: LiveProject; index: nu
           </ul>
         </div>
 
-        <div className="mb-6 p-4 bg-[#EEF6FD] rounded-lg border border-brand-sky/20">
-          <p className="font-body text-sm text-brand-navy leading-relaxed">
-            <span className="font-semibold">Impact: </span>
-            {project.results}
-          </p>
-        </div>
+        {project.results && (
+          <div className="mb-6 p-4 bg-[#EEF6FD] rounded-lg border border-brand-sky/20">
+            <p className="font-body text-sm text-brand-navy leading-relaxed">
+              <span className="font-semibold">Impact: </span>
+              {project.results}
+            </p>
+          </div>
+        )}
 
         <div className="flex flex-wrap gap-1.5 mb-6">
           {project.tech.map((t) => (
@@ -276,13 +390,25 @@ function LiveProjectDetail({ project, index }: { project: LiveProject; index: nu
           ))}
         </div>
 
-        <a href={project.url} target="_blank" rel="noopener noreferrer">
-          <Button className="rounded-button bg-brand-navy-deep text-white font-heading font-semibold hover:bg-brand-navy">
-            <ExternalLink className="size-4 mr-2" />
-            Visit Live Site
+        <div className="flex flex-wrap gap-3">
+          <Button
+            variant="outline"
+            onClick={() => setPreviewOpen(true)}
+            className="rounded-button font-heading font-semibold border-brand-navy-deep/20 text-brand-navy-deep hover:bg-brand-navy-deep hover:text-white"
+          >
+            <Eye className="size-4 mr-2" />
+            Preview
           </Button>
-        </a>
+          <a href={project.url} target="_blank" rel="noopener noreferrer">
+            <Button className="rounded-button bg-brand-navy-deep text-white font-heading font-semibold hover:bg-brand-navy">
+              <ExternalLink className="size-4 mr-2" />
+              Visit Live Site
+            </Button>
+          </a>
+        </div>
       </div>
+
+      <LivePreviewModal project={project} open={previewOpen} onOpenChange={setPreviewOpen} />
     </motion.div>
   );
 }
@@ -402,7 +528,7 @@ export default function PortfolioPageClient() {
                 </span>
               </h1>
               <p className="font-body text-lg text-white/70 max-w-[600px]">
-                Screenshots of real websites we&apos;ve designed and delivered — along with the types of solutions we can build for you.
+                Websites and platforms we&apos;ve designed and delivered. Click any preview to open it larger, or head straight to the live site.
               </p>
             </motion.div>
           </div>
@@ -423,7 +549,7 @@ export default function PortfolioPageClient() {
                 Live Websites
               </h2>
               <p className="font-body text-lg text-muted-foreground max-w-[600px]">
-                Browse screenshots of each site, then explore the features, tech stack, and results.
+                Click any preview to open it larger, then explore the features, tech stack and results.
               </p>
             </motion.div>
 

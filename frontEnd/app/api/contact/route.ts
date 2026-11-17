@@ -88,8 +88,8 @@ export async function POST(request: NextRequest) {
               <h3 style="color: #007bff; margin-top: 0;">Quick Links</h3>
               <p><strong>Website:</strong> <a href="https://clepsydratechnologies.com" style="color: #007bff;">clepsydratechnologies.com</a></p>
               <p><strong>Email:</strong> clepsydratechnologies@gmail.com</p>
-              <p><strong>Phone:</strong> +91 6267665525</p>
-              <p><strong>WhatsApp:</strong> <a href="http://wa.me/916267665525" style="color: #007bff;">Chat with us</a></p>
+              <p><strong>Phone:</strong> +91 9474448909</p>
+              <p><strong>WhatsApp:</strong> <a href="http://wa.me/919474448909" style="color: #007bff;">Chat with us</a></p>
             </div>
             
             <p>Best regards,<br>

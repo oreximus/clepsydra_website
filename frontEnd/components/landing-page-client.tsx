@@ -22,7 +22,6 @@ import {
   Rocket,
   Sparkles,
   Star,
-  Quote,
   ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -128,29 +127,6 @@ const steps = [
     icon: <Rocket className="size-6" />,
   },
 ];
-
-const testimonials = [
-  {
-    quote: "Clepsydra transformed our outdated systems into a modern, scalable platform. Their precision and communication throughout the process was exceptional.",
-    author: "Sarah Johnson",
-    role: "Project Manager, TechCorp",
-    rating: 5,
-  },
-  {
-    quote: "The AI automation solutions they built saved us over 30 hours of manual work per week. The ROI was immediate and the quality outstanding.",
-    author: "Michael Chen",
-    role: "CTO, GrowthLabs",
-    rating: 5,
-  },
-  {
-    quote: "From concept to deployment, Clepsydra delivered a polished mobile app that our users love. Their UI/UX expertise really sets them apart.",
-    author: "Emily Rodriguez",
-    role: "Founder, StartupX",
-    rating: 5,
-  },
-];
-
-
 
 const heroWords = [
   "Modern Software",
@@ -497,7 +473,7 @@ export default function LandingPageClient() {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+            <div className="max-w-md mx-auto">
               {/* Naman Namdev */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -524,7 +500,7 @@ export default function LandingPageClient() {
                     <div className="flex items-center gap-2 mb-4">
                       <span className="inline-block w-2 h-px bg-brand-blue/40" />
                       <span className="font-body text-xs font-medium text-brand-blue tracking-wider uppercase">
-                        CEO &amp; Co-Founder
+                        CEO &amp; Founder
                       </span>
                       <span className="inline-block w-2 h-px bg-brand-blue/40" />
                     </div>
@@ -544,103 +520,6 @@ export default function LandingPageClient() {
                 </Card>
               </motion.div>
 
-              {/* Anubhav Singh Parte */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.15 }}
-              >
-                <Card className="border-[#E5EAF4] shadow-brand-sm hover:shadow-brand-md hover:-translate-y-0.5 transition-all duration-200 rounded-card bg-white group">
-                  <CardContent className="p-8 flex flex-col items-center text-center">
-                    <div className="relative mb-6">
-                      <div className="size-32 rounded-full overflow-hidden ring-4 ring-brand-blue/10 group-hover:ring-brand-blue/25 transition-all duration-300">
-                        <Image
-                          src="/images/team/anubhavs_pic.jpg"
-                          alt="Anubhav Singh Parte"
-                          width={256}
-                          height={256}
-                          className="size-full object-cover"
-                        />
-                      </div>
-                    </div>
-                    <h3 className="font-heading text-xl font-semibold text-brand-navy-deep mb-1">
-                      Anubhav Singh Parte
-                    </h3>
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="inline-block w-2 h-px bg-brand-blue/40" />
-                      <span className="font-body text-xs font-medium text-brand-blue tracking-wider uppercase">
-                        CTO &amp; Co-Founder
-                      </span>
-                      <span className="inline-block w-2 h-px bg-brand-blue/40" />
-                    </div>
-                    <p className="font-body text-sm text-muted-foreground leading-relaxed mb-5 max-w-xs">
-                      Architecting the technology backbone of Clepsydra, driving innovation in software development and engineering excellence.
-                    </p>
-                    <Link
-                      href="https://www.linkedin.com/in/anubhav-singh-parte-b65244190/"
-                      className="inline-flex items-center gap-2 font-body text-sm text-brand-navy hover:text-brand-blue transition-colors duration-200"
-                    >
-                      <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                      </svg>
-                      Connect on LinkedIn
-                    </Link>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* ===== TESTIMONIALS SECTION ===== */}
-        <section className="py-20 md:py-24 bg-surface-off relative overflow-hidden">
-          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-brand-sky/[0.03] rounded-full blur-3xl pointer-events-none" />
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col items-center text-center mb-14"
-            >
-              <div className="section-label">Testimonials</div>
-              <h2 className="font-heading text-[2.5rem] md:text-[3rem] font-bold text-brand-navy-deep mt-4 mb-4">
-                What Our Clients Say
-              </h2>
-              <p className="font-body text-lg text-muted-foreground max-w-[600px]">
-                Don&apos;t just take our word for it — hear from the businesses we&apos;ve helped.
-              </p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              {testimonials.map((t, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.15 }}
-                >
-                  <Card className="h-full border-[#E5EAF4] shadow-brand-sm hover:shadow-brand-md hover:-translate-y-0.5 transition-all duration-200 rounded-card bg-white">
-                    <CardContent className="p-8 flex flex-col h-full">
-                      <Quote className="size-8 text-brand-sky/30 mb-4" />
-                      <p className="font-body text-muted-foreground leading-relaxed mb-6 flex-1">
-                        &ldquo;{t.quote}&rdquo;
-                      </p>
-                      <div className="flex items-center gap-1 mb-4">
-                        {Array.from({ length: t.rating }).map((_, j) => (
-                          <Star key={j} className="size-4 fill-brand-sky text-brand-sky" />
-                        ))}
-                      </div>
-                      <div className="pt-4 border-t border-[#E5EAF4]">
-                        <p className="font-heading font-semibold text-brand-navy-deep text-sm">{t.author}</p>
-                        <p className="font-body text-xs text-muted-foreground">{t.role}</p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
             </div>
           </div>
         </section>
@@ -750,7 +629,9 @@ export default function LandingPageClient() {
                         </div>
                         <div>
                           <p className="font-heading text-sm font-medium text-brand-navy-deep">Phone</p>
-                          <p className="font-body text-muted-foreground text-sm">+91 6267665525</p>
+                          <Link href="tel:+919474448909" className="font-body text-muted-foreground hover:text-brand-navy transition-colors text-sm">
+                            +91 9474448909
+                          </Link>
                         </div>
                       </div>
 
@@ -762,7 +643,7 @@ export default function LandingPageClient() {
                         </div>
                         <div>
                           <p className="font-heading text-sm font-medium text-brand-navy-deep">WhatsApp</p>
-                          <Link href="http://wa.me/916267665525" className="font-body text-muted-foreground hover:text-brand-navy transition-colors text-sm">
+                          <Link href="http://wa.me/919474448909" className="font-body text-muted-foreground hover:text-brand-navy transition-colors text-sm">
                             Chat with us
                           </Link>
                         </div>
@@ -775,13 +656,6 @@ export default function LandingPageClient() {
                   <CardContent className="p-8">
                     <h3 className="font-heading text-xl font-semibold text-brand-navy-deep mb-4">Quick Links</h3>
                     <div className="space-y-3">
-                      <Link
-                        href="https://forms.gle/W1u3XJPJXBXhQVR78"
-                        className="flex items-center gap-3 font-body text-muted-foreground hover:text-brand-navy transition-colors text-sm group"
-                      >
-                        <span className="size-2 rounded-full bg-brand-sky group-hover:bg-brand-navy transition-colors" />
-                        Project Proposal Form
-                      </Link>
                       <Link
                         href="/clepsydra_links"
                         className="flex items-center gap-3 font-body text-muted-foreground hover:text-brand-navy transition-colors text-sm group"

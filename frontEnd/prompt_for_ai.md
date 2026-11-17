@@ -38,8 +38,8 @@ Use this logo image as the primary brand mark: `/images/logo-icon-transparent.pn
 ## Contact Info
 
 - **Email:** clepsydratechnologies@gmail.com
-- **Phone:** +91 6267665525
-- **WhatsApp:** http://wa.me/916267665525
+- **Phone:** +91 9474448909
+- **WhatsApp:** http://wa.me/919474448909
 - **Project Proposal Form:** https://forms.gle/W1u3XJPJXBXhQVR78
 
 ---
