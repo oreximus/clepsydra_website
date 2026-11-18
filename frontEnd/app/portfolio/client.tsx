@@ -57,7 +57,6 @@ const liveProjects: LiveProject[] = [
     description:
       "A modern platform that gives every pet a unique QR-based digital identity. Pet owners can create profiles with medical records, vaccination history, and contact details. When scanned, the QR code instantly displays the pet's information and owner contact — dramatically increasing the chances of reuniting lost pets with their families.",
     url: "https://tailsinfo.com/",
-    screenshot: "/images/portfolio/tailsinfo.jpg",
     tech: ["Next.js", "PostgreSQL", "QR Code Generation", "Tailwind CSS", "Cloud Hosting"],
     gradient: "from-amber-600 via-orange-500 to-rose-500",
     accent: "#D97706",
@@ -169,15 +168,16 @@ const liveProjects: LiveProject[] = [
   },
   {
     title: "ORVOPS HMS",
-    tagline: "Hospital Management System — ORVOPS by Clepsydra",
+    tagline: "Hospital Management — ORVOPS ERP & Management Suite",
     description:
-      "Part of ORVOPS, Clepsydra’s own ERP and management software suite, this enterprise hospital management system is multi-tenant by design — one deployment serving multiple hospitals with isolated data — covering patient records, appointments, billing and role-based staff access behind a secure login.",
+      "ORVOPS HMS is part of ORVOPS, Clepsydra Technologies' own ERP and management software suite. This multi-tenant hospital management system serves multiple hospitals from one deployment with isolated data — covering patient records, appointments, billing and role-based staff access behind a secure login.",
     url: "https://hms.orvops.com/",
     screenshot: "/images/portfolio/hms-orvops.jpg",
     tech: ["Next.js", "PostgreSQL", "Multi-Tenant Architecture", "Tailwind CSS", "Role-based Access"],
     gradient: "from-sky-800 via-blue-700 to-indigo-600",
     accent: "#1D4ED8",
     features: [
+      "Part of ORVOPS, Clepsydra's ERP & management suite",
       "Multi-tenant isolation per hospital",
       "Patient registration and medical records",
       "Appointments and department scheduling",

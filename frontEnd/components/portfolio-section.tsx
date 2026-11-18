@@ -36,7 +36,6 @@ const liveProjects: PortfolioProject[] = [
     description:
       "A platform that gives every pet a unique QR-based digital identity. Helps reunite lost pets with their owners, maintain health records, and connect with a pet community — all through a simple QR scan.",
     url: "https://tailsinfo.com/",
-    screenshot: "/images/portfolio/tailsinfo.jpg",
     tech: ["Next.js", "PostgreSQL", "QR Code API", "Tailwind CSS", "Cloud Hosting"],
     gradient: "from-amber-600 via-orange-500 to-rose-500",
     accent: "#D97706",
@@ -95,9 +94,9 @@ const liveProjects: PortfolioProject[] = [
   },
   {
     title: "ORVOPS HMS",
-    tagline: "Hospital Management System — ORVOPS by Clepsydra",
+    tagline: "Hospital Management — ORVOPS ERP & Management Suite",
     description:
-      "Part of ORVOPS, Clepsydra’s own ERP and management software suite, this enterprise hospital management system is multi-tenant by design — one deployment serving multiple hospitals with isolated data — covering patient records, appointments, billing and role-based staff access behind a secure login.",
+      "ORVOPS HMS is part of ORVOPS, Clepsydra Technologies' own ERP and management software suite. This multi-tenant hospital management system serves multiple hospitals from one deployment with isolated data — covering patient records, appointments, billing and role-based staff access behind a secure login.",
     url: "https://hms.orvops.com/",
     screenshot: "/images/portfolio/hms-orvops.jpg",
     tech: ["Next.js", "PostgreSQL", "Multi-Tenant Architecture", "Tailwind CSS", "Role-based Access"],
