@@ -57,6 +57,7 @@ const liveProjects: LiveProject[] = [
     description:
       "A modern platform that gives every pet a unique QR-based digital identity. Pet owners can create profiles with medical records, vaccination history, and contact details. When scanned, the QR code instantly displays the pet's information and owner contact — dramatically increasing the chances of reuniting lost pets with their families.",
     url: "https://tailsinfo.com/",
+    screenshot: "/images/portfolio/tailsinfo.jpg",
     tech: ["Next.js", "PostgreSQL", "QR Code Generation", "Tailwind CSS", "Cloud Hosting"],
     gradient: "from-amber-600 via-orange-500 to-rose-500",
     accent: "#D97706",

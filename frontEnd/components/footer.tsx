@@ -24,7 +24,7 @@ const company = [
   { label: "About Us", href: "/#about" },
   { label: "Contact", href: "/#contact" },
   { label: "Explore", href: "/clepsydra_links" },
-  { label: "ORVOPS", href: "https://hms.orvops.com/" },
+  { label: "ORVOPS", href: "https://orvops.com/" },
 ];
 
 const socialLinks = [

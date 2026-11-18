@@ -40,8 +40,8 @@ const links = [
   },
   {
     title: "ORVOPS",
-    description: "ERP & operations management suite",
-    url: "https://hms.orvops.com/",
+    description: "Operations software suite by Clepsydra — hospital, mess, hotel & inventory",
+    url: "https://orvops.com/",
     icon: Hospital,
     external: true,
   },

@@ -36,6 +36,7 @@ const liveProjects: PortfolioProject[] = [
     description:
       "A platform that gives every pet a unique QR-based digital identity. Helps reunite lost pets with their owners, maintain health records, and connect with a pet community — all through a simple QR scan.",
     url: "https://tailsinfo.com/",
+    screenshot: "/images/portfolio/tailsinfo.jpg",
     tech: ["Next.js", "PostgreSQL", "QR Code API", "Tailwind CSS", "Cloud Hosting"],
     gradient: "from-amber-600 via-orange-500 to-rose-500",
     accent: "#D97706",
