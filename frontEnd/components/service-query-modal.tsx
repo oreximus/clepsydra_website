@@ -22,6 +22,14 @@ import { useToast } from "@/hooks/use-toast"
 import { Loader2, Send, CheckCircle, ArrowRight } from "lucide-react"
 
 const subServices: Record<string, string[]> = {
+  "ERP & Management Software": [
+    "ORVOPS HMS — Hospital Management",
+    "Dabbik — Mess & Tiffin Management",
+    "ORVOPS Hospitality — Hotel Management",
+    "StockLink — Inventory & Distribution",
+    "Custom ERP / Management Software",
+    "Other",
+  ],
   "Website Development": [
     "E-commerce Website",
     "Corporate / Business Website",
@@ -95,11 +103,20 @@ interface ServiceQueryModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   defaultService: string
+  defaultSubService?: string
 }
 
-export function ServiceQueryModal({ open, onOpenChange, defaultService }: ServiceQueryModalProps) {
+export function ServiceQueryModal({
+  open,
+  onOpenChange,
+  defaultService,
+  defaultSubService,
+}: ServiceQueryModalProps) {
   const options = subServices[defaultService] ?? fallbackOptions
-  const defaultOption = options[0]
+  const matchedSub = defaultSubService
+    ? options.find((opt) => opt.toLowerCase().includes(defaultSubService.toLowerCase()))
+    : undefined
+  const defaultOption = matchedSub ?? options[0]
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -125,7 +142,7 @@ export function ServiceQueryModal({ open, onOpenChange, defaultService }: Servic
       }))
       setIsSuccess(false)
     }
-  }, [defaultService, open]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [defaultService, defaultSubService, open]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })

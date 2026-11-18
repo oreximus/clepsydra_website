@@ -26,17 +26,20 @@ const baseUrl = "https://clepsydratechnologies.com";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Clepsydra Technologies — Timeless Precision, Modern Solutions",
+    default: "Clepsydra Technologies — Software Services & ORVOPS ERP Suite",
     template: "%s — Clepsydra Technologies",
   },
   description:
-    "Clepsydra Technologies delivers timeless precision through modern software solutions for web, mobile, AI automation, data analytics, and more.",
+    "Clepsydra Technologies builds custom software for web, mobile, and AI automation — and owns ORVOPS, our ERP & management software suite for hospitals, mess kitchens, hotels, and inventory teams.",
   icons: {
     icon: [
-      { url: "/images/logo-icon-transparent.png", sizes: "any" },
+      { url: "/favicon.ico?v=2", sizes: "any" },
+      { url: "/favicon-32x32.png?v=2", sizes: "32x32", type: "image/png" },
+      { url: "/images/logo-icon-transparent.png?v=2", type: "image/png" },
     ],
+    shortcut: "/favicon.ico?v=2",
     apple: [
-      { url: "/images/logo-icon-transparent.png", sizes: "180x180", type: "image/png" },
+      { url: "/apple-touch-icon.png?v=2", sizes: "180x180", type: "image/png" },
     ],
   },
   alternates: {

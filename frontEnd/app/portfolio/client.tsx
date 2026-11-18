@@ -29,7 +29,9 @@ interface LiveProject {
   tagline: string;
   description: string;
   url: string;
-  /** Static image used when the site cannot be embedded (login-only or X-Frame-Options blocked) */
+  /** Optional same-origin dynamic live preview route for sites that send X-Frame-Options */
+  previewUrl?: string;
+  /** Static image used when the site cannot be embedded or as fallback if live preview fails */
   screenshot?: string;
   tech: string[];
   gradient: string;
@@ -57,6 +59,7 @@ const liveProjects: LiveProject[] = [
     description:
       "A modern platform that gives every pet a unique QR-based digital identity. Pet owners can create profiles with medical records, vaccination history, and contact details. When scanned, the QR code instantly displays the pet's information and owner contact — dramatically increasing the chances of reuniting lost pets with their families.",
     url: "https://tailsinfo.com/",
+    previewUrl: "/api/live-preview?site=tailsinfo",
     screenshot: "/images/portfolio/tailsinfo.jpg",
     tech: ["Next.js", "PostgreSQL", "QR Code Generation", "Tailwind CSS", "Cloud Hosting"],
     gradient: "from-amber-600 via-orange-500 to-rose-500",
@@ -268,6 +271,18 @@ const designCategories: DesignCategory[] = [
 ];
 
 function PreviewFrame({ project }: { project: LiveProject }) {
+  const frameSrc = project.previewUrl ?? (!project.screenshot ? project.url : undefined);
+
+  if (frameSrc) {
+    return (
+      <LiveFrame
+        url={frameSrc}
+        title={project.title}
+        fallbackScreenshot={project.screenshot}
+      />
+    );
+  }
+
   if (project.screenshot) {
     return (
       <div className="relative w-full aspect-video bg-[#F1F5F9] overflow-hidden">
@@ -314,6 +329,9 @@ function LiveProjectDetail({ project, index }: { project: LiveProject; index: nu
               </div>
               <div className="flex-1 flex items-center justify-center min-w-0">
                 <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-[#E5EAF4] max-w-[90%]">
+                  {(project.previewUrl || !project.screenshot) && (
+                    <span className="size-1.5 rounded-full bg-emerald-500 shrink-0" aria-hidden="true" />
+                  )}
                   <Globe className="size-3 text-muted-foreground shrink-0" />
                   <span className="font-body text-xs text-muted-foreground truncate">
                     {project.url.replace(/^https?:\/\//, "")}

@@ -23,18 +23,14 @@ import {
   Sparkles,
   Star,
   ChevronRight,
-  LayoutDashboard,
-  Stethoscope,
-  UtensilsCrossed,
-  Hotel,
-  Boxes,
-  ExternalLink,
+  ArrowUpRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ContactForm } from "@/components/contact-form";
 import { ServiceQueryModal } from "@/components/service-query-modal";
 import { Navbar } from "@/components/navbar";
+import { OrvopsShowcase } from "@/components/orvops-showcase";
 import PortfolioSection from "@/components/portfolio-section";
 import dynamic from "next/dynamic";
 
@@ -76,12 +72,6 @@ const services = [
     icon: <Smartphone className="size-5" />,
   },
   {
-    title: "ERP & Management Software",
-    description:
-      "Custom operations platforms for your workflows — including ORVOPS, Clepsydra’s own ERP & management suite for hospitals, mess kitchens, hotels and inventory.",
-    icon: <LayoutDashboard className="size-5" />,
-  },
-  {
     title: "Python Scripting & Automation",
     description: "Automated workflows and custom scripts to streamline your business processes.",
     icon: <Zap className="size-5" />,
@@ -110,53 +100,6 @@ const services = [
     title: "Application Testing",
     description: "Comprehensive testing services including security audits and code quality assurance.",
     icon: <TestTube className="size-5" />,
-  },
-];
-
-const orvopsProducts = [
-  {
-    name: "ORVOPS HMS",
-    category: "Hospital management",
-    status: "Live",
-    href: "https://hms.orvops.com",
-    icon: <Stethoscope className="size-5" />,
-    accent: "#0d6e71",
-    summary:
-      "Every patient, bed and bill on one record — OPD, IPD, diagnostics, pharmacy, billing and insurance.",
-    points: ["Multi-tenant", "20+ modules", "Offline mode"],
-  },
-  {
-    name: "Dabbik",
-    category: "Mess & tiffin management",
-    status: "Live",
-    href: "https://dabbik.com",
-    icon: <UtensilsCrossed className="size-5" />,
-    accent: "#034e39",
-    summary:
-      "Run the mess, not the spreadsheet — QR attendance, member plans, tiffin dispatch, dues and accounts.",
-    points: ["QR attendance", "Member app", "Tiffin delivery"],
-  },
-  {
-    name: "ORVOPS Hospitality",
-    category: "Hotel management",
-    status: "Live reference",
-    href: "https://www.orvops.com/products/hospitality",
-    icon: <Hotel className="size-5" />,
-    accent: "#a8772f",
-    summary:
-      "Bookings, rooms, bills and payroll on one panel — folios, room QR, housekeeping and GST billing.",
-    points: ["Bookings & folio", "Room QR", "Payroll & P&L"],
-  },
-  {
-    name: "StockLink",
-    category: "Inventory & distribution",
-    status: "Coming soon",
-    href: "https://www.orvops.com/products/stocklink",
-    icon: <Boxes className="size-5" />,
-    accent: "#1f6f8b",
-    summary:
-      "Stock you can prove — an append-only ledger with batch expiry, procurement, transfers and GST billing.",
-    points: ["Batch / FEFO", "Database isolation", "Early access"],
   },
 ];
 
@@ -233,7 +176,14 @@ function AnimatedHeroText() {
 
 export default function LandingPageClient() {
   const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [selectedSubService, setSelectedSubService] = useState<string | undefined>(undefined);
   const [modalOpen, setModalOpen] = useState(false);
+
+  const handleRequestErp = (productName: string) => {
+    setSelectedService("ERP & Management Software");
+    setSelectedSubService(productName);
+    setModalOpen(true);
+  };
 
   return (
     <div className="flex min-h-[100dvh] flex-col">
@@ -275,20 +225,25 @@ export default function LandingPageClient() {
                 <AnimatedHeroText />
               </h1>
               <p className="font-body text-lg md:text-xl text-white/70 max-w-2xl mb-10 leading-relaxed">
-                We turn complex ideas into elegant, scalable solutions — from custom software for clients to our own
-                ERP &amp; management suite, ORVOPS. Clepsydra delivers with timeless precision.
+                We turn complex ideas into elegant, scalable solutions. From web and mobile to AI automation —
+                Clepsydra delivers with timeless precision.
               </p>
+
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="group rounded-button bg-white text-brand-navy font-heading font-semibold h-12 px-8 text-base shadow-brand-md hover:bg-brand-sky-light hover:text-white transition-all duration-300">
-                  Start Your Project
-                  <ArrowRight className="ml-2 size-4 group-hover:translate-x-1 transition-transform duration-300" />
-                </Button>
-                <Button
-                  variant="outline"
-                  className="rounded-button border-white/20 text-white bg-white/5 backdrop-blur-sm hover:bg-white/15 h-12 px-8 text-base font-heading font-semibold transition-all duration-300"
-                >
-                  View Our Work
-                </Button>
+                <a href="#contact">
+                  <Button className="group rounded-button bg-white text-brand-navy font-heading font-semibold h-12 px-8 text-base shadow-brand-md hover:bg-brand-sky-light hover:text-white transition-all duration-300 w-full sm:w-auto">
+                    Start Your Project
+                    <ArrowRight className="ml-2 size-4 group-hover:translate-x-1 transition-transform duration-300" />
+                  </Button>
+                </a>
+                <Link href="/portfolio">
+                  <Button
+                    variant="outline"
+                    className="rounded-button border-white/20 text-white bg-white/5 backdrop-blur-sm hover:bg-white/15 hover:text-white h-12 px-8 text-base font-heading font-semibold transition-all duration-300 w-full sm:w-auto"
+                  >
+                    View Our Work
+                  </Button>
+                </Link>
               </div>
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-10 text-sm text-white/50 font-body">
                 <span className="flex items-center gap-1.5">
@@ -317,7 +272,7 @@ export default function LandingPageClient() {
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
-                { value: "9+", label: "Core Services" },
+                { value: "8+", label: "Core Services" },
                 { value: "20+", label: "Projects Delivered" },
                 { value: "5+", label: "Tech Stacks" },
                 { value: "100%", label: "Client Satisfaction" },
@@ -370,6 +325,7 @@ export default function LandingPageClient() {
                   variants={item}
                   onClick={() => {
                     setSelectedService(service.title);
+                    setSelectedSubService(undefined);
                     setModalOpen(true);
                   }}
                   className="cursor-pointer"
@@ -453,9 +409,8 @@ export default function LandingPageClient() {
                 Who We Are
               </h2>
               <p className="font-body text-lg text-muted-foreground max-w-[700px]">
-                We are a team of passionate engineers, designers, and problem-solvers building software for clients and
-                for ourselves — including ORVOPS, our own ERP &amp; management software suite owned by Clepsydra
-                Technologies.
+                We are a team of passionate engineers, designers, and problem-solvers delivering custom software services —
+                and building <a href="#orvops" className="text-brand-navy font-medium underline decoration-brand-sky/50 underline-offset-4 hover:text-brand-blue transition-colors">ORVOPS</a>, our own ERP &amp; management software suite for real-world businesses.
               </p>
             </motion.div>
 
@@ -584,122 +539,14 @@ export default function LandingPageClient() {
           </div>
         </section>
 
-        {/* ===== ORVOPS SECTION ===== */}
-        <section id="orvops" className="py-20 md:py-24 bg-white relative overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-24 right-[-6rem] w-[420px] h-[420px] rounded-full bg-brand-sky/10 blur-3xl" />
-            <div className="absolute -bottom-24 left-[-6rem] w-[360px] h-[360px] rounded-full bg-brand-blue/10 blur-3xl" />
-          </div>
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col items-center text-center mb-14"
-            >
-              <div className="section-label">Our Product Suite</div>
-              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#E5EAF4] bg-surface-off px-4 py-1.5">
-                <span className="size-2 rounded-full bg-brand-blue" />
-                <span className="font-heading text-xs font-semibold tracking-wider uppercase text-brand-navy-deep">
-                  Owned by Clepsydra Technologies
-                </span>
-              </div>
-              <h2 className="font-heading text-[2.5rem] md:text-[3rem] font-bold text-brand-navy-deep mt-4 mb-4">
-                ORVOPS — ERP &amp; Management Software
-              </h2>
-              <p className="font-body text-lg text-muted-foreground max-w-[760px]">
-                ORVOPS is Clepsydra Technologies&apos; own operations software suite. We build and support management
-                platforms for hospitals, mess &amp; tiffin kitchens, hotels and inventory teams — the same kind of
-                products shown on ORVOPS, delivered with our software services and custom development expertise.
-              </p>
-              <div className="mt-7 flex flex-col sm:flex-row gap-3">
-                <a href="https://orvops.com/" target="_blank" rel="noopener noreferrer">
-                  <Button className="rounded-button bg-brand-gradient text-white font-heading font-semibold h-12 px-7 shadow-brand-md hover:brightness-110 transition-all duration-200">
-                    Visit ORVOPS
-                    <ExternalLink className="ml-2 size-4" />
-                  </Button>
-                </a>
-                <a href="https://orvops.com/demo" target="_blank" rel="noopener noreferrer">
-                  <Button
-                    variant="outline"
-                    className="rounded-button border-brand-navy/20 text-brand-navy-deep font-heading font-semibold h-12 px-7 hover:bg-brand-navy-deep hover:text-white transition-all duration-200"
-                  >
-                    Book an ORVOPS Demo
-                    <ArrowRight className="ml-2 size-4" />
-                  </Button>
-                </a>
-              </div>
-            </motion.div>
-
-            <motion.div
-              variants={container}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              className="grid gap-6 md:grid-cols-2"
-            >
-              {orvopsProducts.map((product) => (
-                <motion.div key={product.name} variants={item}>
-                  <a
-                    href={product.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block h-full group"
-                  >
-                    <Card className="h-full border-[#E5EAF4] shadow-brand-sm hover:shadow-brand-md hover:-translate-y-0.5 transition-all duration-200 rounded-card bg-white overflow-hidden">
-                      <div className="h-1.5 w-full" style={{ backgroundColor: product.accent }} />
-                      <CardContent className="p-6 md:p-7 flex flex-col h-full">
-                        <div className="flex items-start justify-between gap-4 mb-4">
-                          <div className="flex items-center gap-3 min-w-0">
-                            <div
-                              className="size-12 rounded-[10px] flex items-center justify-center shrink-0"
-                              style={{ backgroundColor: `${product.accent}1A`, color: product.accent }}
-                            >
-                              {product.icon}
-                            </div>
-                            <div className="min-w-0">
-                              <div className="font-body text-xs text-muted-foreground">{product.category}</div>
-                              <h3 className="font-heading text-xl font-semibold text-brand-navy-deep leading-tight">
-                                {product.name}
-                              </h3>
-                            </div>
-                          </div>
-                          <span
-                            className="shrink-0 rounded-full px-3 py-1 text-xs font-heading font-semibold"
-                            style={{ backgroundColor: `${product.accent}14`, color: product.accent }}
-                          >
-                            {product.status}
-                          </span>
-                        </div>
-                        <p className="font-body text-sm text-muted-foreground leading-relaxed mb-5 flex-1">
-                          {product.summary}
-                        </p>
-                        <div className="flex flex-wrap gap-2 mb-5">
-                          {product.points.map((point) => (
-                            <span
-                              key={point}
-                              className="inline-flex items-center rounded-full border border-[#E5EAF4] bg-surface-off px-3 py-1 text-xs font-body text-[#374151]"
-                            >
-                              {point}
-                            </span>
-                          ))}
-                        </div>
-                        <div className="inline-flex items-center gap-1.5 font-heading text-sm font-semibold text-brand-navy group-hover:text-brand-blue transition-colors">
-                          View product
-                          <ExternalLink className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </a>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-
         {/* ===== PORTFOLIO SECTION ===== */}
         <PortfolioSection />
+
+        {/* ===== ORVOPS ERP & MANAGEMENT SOFTWARE SUITE (OWNED BY CLEPSYDRA) ===== */}
+        <OrvopsShowcase
+          onRequestErp={handleRequestErp}
+          showDedicatedPageLink
+        />
 
         {/* ===== CTA SECTION ===== */}
         <section className="py-20 md:py-24 bg-hero-gradient relative overflow-hidden">
@@ -721,16 +568,20 @@ export default function LandingPageClient() {
                 Join us and experience the perfect blend of timeless precision and modern technology.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="rounded-button bg-white text-brand-navy font-heading font-semibold h-12 px-8 text-base shadow-brand-md hover:bg-brand-sky-light hover:text-white transition-all duration-200">
-                  Start Your Project
-                  <ArrowRight className="ml-2 size-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  className="rounded-button border-white text-white bg-transparent hover:bg-white/10 h-12 px-8 text-base font-heading font-semibold"
-                >
-                  Schedule a Demo
-                </Button>
+                <a href="#contact">
+                  <Button className="rounded-button bg-white text-brand-navy font-heading font-semibold h-12 px-8 text-base shadow-brand-md hover:bg-brand-sky-light hover:text-white transition-all duration-200 w-full sm:w-auto">
+                    Start Your Project
+                    <ArrowRight className="ml-2 size-4" />
+                  </Button>
+                </a>
+                <a href="https://www.orvops.com/demo" target="_blank" rel="noopener noreferrer">
+                  <Button
+                    variant="outline"
+                    className="rounded-button border-white text-white bg-transparent hover:bg-white/10 hover:text-white h-12 px-8 text-base font-heading font-semibold w-full sm:w-auto"
+                  >
+                    Schedule an ORVOPS Demo
+                  </Button>
+                </a>
               </div>
               <p className="font-body text-sm text-white/60 mt-6">
                 Free consultation. Custom solutions. Expert support.
@@ -830,6 +681,16 @@ export default function LandingPageClient() {
                   <CardContent className="p-8">
                     <h3 className="font-heading text-xl font-semibold text-brand-navy-deep mb-4">Quick Links</h3>
                     <div className="space-y-3">
+                      <a
+                        href="https://www.orvops.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 font-body text-muted-foreground hover:text-brand-navy transition-colors text-sm group"
+                      >
+                        <span className="size-2 rounded-full bg-[#13A2A0] group-hover:bg-brand-navy transition-colors" />
+                        ORVOPS — Our ERP &amp; Management Software Suite
+                        <ArrowUpRight className="size-3.5 text-[#0D6E71] ml-auto" />
+                      </a>
                       <Link
                         href="/clepsydra_links"
                         className="flex items-center gap-3 font-body text-muted-foreground hover:text-brand-navy transition-colors text-sm group"
@@ -850,6 +711,7 @@ export default function LandingPageClient() {
         open={modalOpen}
         onOpenChange={setModalOpen}
         defaultService={selectedService ?? "Website Development"}
+        defaultSubService={selectedSubService}
       />
     </div>
   );

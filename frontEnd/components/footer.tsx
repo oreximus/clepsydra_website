@@ -17,14 +17,15 @@ const services = [
   { label: "Mobile Apps", href: "/#services" },
   { label: "AI Automation", href: "/#services" },
   { label: "Data Analytics", href: "/#services" },
-  { label: "ERP & Management Software", href: "/#services" },
+  { label: "Management Software", href: "/management-software" },
 ];
 
 const company = [
+  { label: "ORVOPS (Management Software)", href: "/management-software" },
+  { label: "ORVOPS Website", href: "https://www.orvops.com/" },
+  { label: "Portfolio", href: "/portfolio" },
   { label: "About Us", href: "/#about" },
-  { label: "Contact", href: "/#contact" },
   { label: "Explore", href: "/clepsydra_links" },
-  { label: "ORVOPS", href: "https://orvops.com/" },
 ];
 
 const socialLinks = [
@@ -133,6 +134,29 @@ export function Footer() {
                 company. We build tailored products and platforms — including
                 ORVOPS, our own ERP and management software suite.
               </p>
+              <a
+                href="https://www.orvops.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-5 inline-flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.05] px-3.5 py-2.5 hover:border-brand-sky/50 hover:bg-white/[0.09] transition-all duration-200 max-md:mx-auto"
+              >
+                <Image
+                  src="/images/orvops/brand/app-icon-dark.png"
+                  alt="ORVOPS"
+                  width={34}
+                  height={34}
+                  className="size-8 rounded-lg shrink-0"
+                />
+                <span className="text-left">
+                  <span className="block font-heading text-xs font-semibold text-white">
+                    ORVOPS Suite
+                  </span>
+                  <span className="block font-body text-[11px] text-brand-sky-light">
+                    Owned by Clepsydra · orvops.com
+                  </span>
+                </span>
+                <ChevronRight className="size-3.5 text-white/45 group-hover:text-brand-sky-light group-hover:translate-x-0.5 transition-all" />
+              </a>
               <div className="flex items-center gap-2.5 mt-6 max-md:justify-center">
                 {socialLinks.map((s) => {
                   const Icon = s.icon;

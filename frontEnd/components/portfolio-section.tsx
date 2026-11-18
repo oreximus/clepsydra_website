@@ -12,7 +12,9 @@ export interface PortfolioProject {
   tagline: string;
   description: string;
   url: string;
-  /** Static image used when the site cannot be embedded (login-only or X-Frame-Options blocked) */
+  /** Optional same-origin dynamic live preview route for sites that send X-Frame-Options */
+  previewUrl?: string;
+  /** Static image used when the site cannot be embedded (login-only or fallback if preview fails) */
   screenshot?: string;
   tech: string[];
   gradient: string;
@@ -36,6 +38,7 @@ const liveProjects: PortfolioProject[] = [
     description:
       "A platform that gives every pet a unique QR-based digital identity. Helps reunite lost pets with their owners, maintain health records, and connect with a pet community — all through a simple QR scan.",
     url: "https://tailsinfo.com/",
+    previewUrl: "/api/live-preview?site=tailsinfo",
     screenshot: "/images/portfolio/tailsinfo.jpg",
     tech: ["Next.js", "PostgreSQL", "QR Code API", "Tailwind CSS", "Cloud Hosting"],
     gradient: "from-amber-600 via-orange-500 to-rose-500",
@@ -178,6 +181,18 @@ const designCategories: DesignCategory[] = [
 ];
 
 function PreviewFrame({ project }: { project: PortfolioProject }) {
+  const frameSrc = project.previewUrl ?? (!project.screenshot ? project.url : undefined);
+
+  if (frameSrc) {
+    return (
+      <LiveFrame
+        url={frameSrc}
+        title={project.title}
+        fallbackScreenshot={project.screenshot}
+      />
+    );
+  }
+
   if (project.screenshot) {
     return (
       <div className="relative w-full aspect-video bg-[#F1F5F9] overflow-hidden">
@@ -216,6 +231,9 @@ function LiveProjectCard({ project }: { project: PortfolioProject }) {
             </div>
             <div className="flex-1 flex items-center justify-center min-w-0">
               <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-[#E5EAF4] max-w-[90%]">
+                {(project.previewUrl || !project.screenshot) && (
+                  <span className="size-1.5 rounded-full bg-emerald-500 shrink-0" aria-hidden="true" />
+                )}
                 <Globe className="size-3 text-muted-foreground shrink-0" />
                 <span className="font-body text-xs text-muted-foreground truncate">
                   {project.url.replace(/^https?:\/\//, "")}

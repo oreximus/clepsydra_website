@@ -56,12 +56,24 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
     -webkit-font-smoothing: antialiased;
+  }
+  :where(a:any-link, button):focus-visible {
+    outline: 2px solid var(--brand-sky);
+    outline-offset: 2px;
   }
 }
 

@@ -7,7 +7,14 @@ export function OrganizationJsonLd() {
     logo: "https://clepsydratechnologies.com/images/logo-icon-transparent.png",
     slogan: "Timeless Precision, Modern Solutions",
     description:
-      "Clepsydra Technologies delivers timeless precision through modern software solutions for web, mobile, AI automation, data analytics, and more.",
+      "Clepsydra Technologies delivers timeless precision through custom software engineering and owns ORVOPS, an ERP and management software suite for hospitals, mess kitchens, hotels, and inventory teams.",
+    subOrganization: {
+      "@type": "Organization",
+      name: "ORVOPS",
+      url: "https://www.orvops.com",
+      description:
+        "Operations, ERP, and management software suite owned and built by Clepsydra Technologies — covering ORVOPS HMS, Dabbik, ORVOPS Hospitality, and StockLink.",
+    },
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+91-9474448909",

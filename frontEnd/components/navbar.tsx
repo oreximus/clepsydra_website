@@ -11,6 +11,7 @@ import { QuoteModal } from "@/components/quote-modal";
 
 const navLinks = [
   { href: "/#services", label: "Services" },
+  { href: "/management-software", label: "ORVOPS", badge: true },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/#about", label: "About" },
   { href: "/blog", label: "Blog" },
@@ -58,13 +59,19 @@ export function Navbar() {
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav aria-label="Primary" className="hidden md:flex items-center gap-7">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="font-heading text-sm font-medium text-[#374151] hover:text-[#1A3A8A] transition-all duration-200 relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-[#1A3A8A] after:transition-all after:duration-200 hover:after:w-full"
+              className="inline-flex items-center gap-1.5 font-heading text-sm font-medium text-[#374151] hover:text-[#1A3A8A] transition-all duration-200 relative after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-[#1A3A8A] after:transition-all after:duration-200 hover:after:w-full"
             >
+              {link.badge && (
+                <span
+                  aria-hidden="true"
+                  className="size-1.5 rounded-full bg-brand-blue"
+                />
+              )}
               {link.label}
             </Link>
           ))}
