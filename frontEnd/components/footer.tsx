@@ -23,6 +23,7 @@ const company = [
   { label: "About Us", href: "/#about" },
   { label: "Contact", href: "/#contact" },
   { label: "Explore", href: "/clepsydra_links" },
+  { label: "ORVOPS Suite", href: "https://hms.orvops.com/" },
 ];
 
 const socialLinks = [
@@ -116,8 +117,11 @@ export function Footer() {
               </p>
               <p className="font-body text-sm text-white/50 leading-relaxed mt-4 max-w-xs max-md:mx-auto">
                 We build software that works with the precision of a timepiece
-                — delivering modern digital solutions for businesses ready to
-                move forward.
+                — delivering custom software and modern digital solutions for
+                businesses ready to move forward.
+              </p>
+              <p className="font-body text-xs text-white/60 leading-relaxed mt-3 max-w-xs max-md:mx-auto">
+                ORVOPS is our ERP and management software suite, owned and built by Clepsydra Technologies.
               </p>
               <div className="flex items-center gap-2.5 mt-6 max-md:justify-center">
                 {socialLinks.map((s) => {
@@ -243,20 +247,25 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Clepsydra Technologies. All
             rights reserved.
           </p>
-          <div className="flex items-center gap-2 font-body text-xs text-white/45">
-            <Link
-              href="/privacy"
-              className="hover:text-white/75 transition-colors duration-200"
-            >
-              Privacy Policy
-            </Link>
-            <span>&middot;</span>
-            <Link
-              href="/terms"
-              className="hover:text-white/75 transition-colors duration-200"
-            >
-              Terms of Service
-            </Link>
+          <div className="flex flex-col items-center gap-2 md:items-end">
+            <p className="font-body text-xs text-white/45">
+              ORVOPS ERP &amp; management software — owned by Clepsydra Technologies.
+            </p>
+            <div className="flex items-center gap-2 font-body text-xs text-white/45">
+              <Link
+                href="/privacy"
+                className="hover:text-white/75 transition-colors duration-200"
+              >
+                Privacy Policy
+              </Link>
+              <span>&middot;</span>
+              <Link
+                href="/terms"
+                className="hover:text-white/75 transition-colors duration-200"
+              >
+                Terms of Service
+              </Link>
+            </div>
           </div>
         </div>
       </div>

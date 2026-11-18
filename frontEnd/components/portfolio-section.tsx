@@ -95,9 +95,9 @@ const liveProjects: PortfolioProject[] = [
   },
   {
     title: "ORVOPS HMS",
-    tagline: "Hospital Management System — ORVOPS ERP/Management Suite",
+    tagline: "Hospital Management System — ORVOPS by Clepsydra",
     description:
-      "An enterprise hospital management system, part of the ORVOPS ERP/management suite built by Clepsydra. Multi-tenant by design — one deployment serving multiple hospitals with isolated data — covering patient records, appointments, billing and role-based staff access behind a secure login.",
+      "Part of ORVOPS, Clepsydra’s own ERP and management software suite, this enterprise hospital management system is multi-tenant by design — one deployment serving multiple hospitals with isolated data — covering patient records, appointments, billing and role-based staff access behind a secure login.",
     url: "https://hms.orvops.com/",
     screenshot: "/images/portfolio/hms-orvops.jpg",
     tech: ["Next.js", "PostgreSQL", "Multi-Tenant Architecture", "Tailwind CSS", "Role-based Access"],
