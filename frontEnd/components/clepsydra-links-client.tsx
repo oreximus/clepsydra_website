@@ -13,6 +13,7 @@ import {
   Linkedin,
   Instagram,
   Globe,
+  Hospital,
   ChevronRight,
 } from "lucide-react";
 
@@ -36,6 +37,13 @@ const links = [
     url: "/",
     icon: Globe,
     external: false,
+  },
+  {
+    title: "ORVOPS",
+    description: "ERP & operations management suite",
+    url: "https://hms.orvops.com/",
+    icon: Hospital,
+    external: true,
   },
   {
     title: "WhatsApp Chat",
