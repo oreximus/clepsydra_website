@@ -141,7 +141,7 @@ export default function EditPostPage() {
             ? post.cover_image.startsWith("http") ||
               post.cover_image.startsWith("data:")
               ? post.cover_image
-              : `/content/blog/${post.slug}/${post.cover_image}`
+              : `/api/blog/cover/${post.slug}`
             : ""
         }
         onSave={handleSave}

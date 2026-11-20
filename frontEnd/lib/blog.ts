@@ -52,7 +52,7 @@ export function rowToBlogPost(row: DbPostRow): BlogPost {
       : row.cover_image?.startsWith("http")
         ? row.cover_image
         : row.cover_image
-          ? `/content/blog/${row.slug}/${row.cover_image}`
+          ? `/api/blog/cover/${row.slug}`
           : "",
     content: row.content,
   };

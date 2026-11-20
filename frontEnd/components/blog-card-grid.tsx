@@ -114,6 +114,9 @@ export function BlogCardGrid({ posts }: { posts: PostData[] }) {
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="eager"
                     fetchPriority="high"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
                   />
                 </div>
               )}
@@ -178,6 +181,9 @@ export function BlogCardGrid({ posts }: { posts: PostData[] }) {
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                       loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
                     />
                   </div>
                 )}
